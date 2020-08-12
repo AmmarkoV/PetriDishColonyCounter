@@ -194,11 +194,34 @@ int main(int argc, char *argv[])
                  100, //the higher threshold of the two passed to the Canny edge detector (the lower one is twice smaller)
                  50,  // it is the accumulator threshold for the circle centers at the detection stage. The smaller it is, the more false circles may be detected
                  
-                 200, 300 // change the last two parameters
-            // (min_radius & max_radius) to detect larger circles
+                 200,  // min_radius to detect smaller circles
+                 300   // max_radius to detect larger circles
     );
-
-
+   
+   if (circles.size()>0)
+   {
+    
+    std::vector<KeyPoint> filteredKeypoints;   
+    cv::Point petriDishCenter(0,0);
+    petriDishCenter.x =  circles[0][0];  
+    petriDishCenter.y =  circles[0][1];
+    float petriDishRadious = circles[0][2];
+    fprintf(stderr,"Petri dish is at %u %u %0.2f",petriDishCenter.x,petriDishCenter.y,petriDishRadious);
+    for (unsigned int blobID=0; blobID<keypoints.size(); blobID++)
+    {
+        cv::Point kp = keypoints[blobID].pt;
+        double distanceFromPetriCenter = cv::norm(petriDishCenter - kp);
+        if (distanceFromPetriCenter<petriDishRadious)
+        {
+            filteredKeypoints.push_back(keypoints[blobID]);
+        } else
+        {
+            fprintf(stderr,"Blob @ %u,%u filtered out because of being out of petri dish\n",kp.x,kp.y);
+        }
+    }
+    
+    keypoints = filteredKeypoints;
+   }
 
     // Draw detected blobs as red circles.
     // DrawMatchesFlags::DRAW_RICH_KEYPOINTS flag ensures the size of the circle corresponds to the size of blob
@@ -210,7 +233,8 @@ int main(int argc, char *argv[])
         Vec3i c = circles[i];
         Point center = Point(c[0], c[1]);
         // circle center
-        circle( im_with_keypoints, center, 1, Scalar(0,100,100), 3, LINE_AA);
+        //circle( im_with_keypoints, center, 1, Scalar(0,100,100), 3, LINE_AA);
+        cv::drawMarker (im_with_keypoints,center,Scalar(0,0,255),MARKER_CROSS,20,1,8);
         // circle outline
         int radius = c[2];
         circle( im_with_keypoints, center, radius, Scalar(255,0,255), 3, LINE_AA);
@@ -220,7 +244,7 @@ int main(int argc, char *argv[])
     char str[512]= {0};
     snprintf(str,512,"Counted blobs %lu",keypoints.size());
     cv::Point jointPoint(10,50);
-    cv::putText(im_with_keypoints, str, jointPoint, cv::FONT_HERSHEY_DUPLEX, 1.5, cv::Scalar::all(255), 0.2, 8 );
+    cv::putText(im_with_keypoints, str, jointPoint, cv::FONT_HERSHEY_DUPLEX, 1.5, Scalar(0,0,255) , 0.5, 8 );
 
 
 
