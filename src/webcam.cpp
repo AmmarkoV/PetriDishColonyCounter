@@ -89,11 +89,17 @@ void eliminateDark(cv::Mat &rgb,int threshold)
                 ( rgb.at<Vec3b>(y,x)[0]<threshold ) ||
                 ( rgb.at<Vec3b>(y,x)[1]<threshold ) ||
                 ( rgb.at<Vec3b>(y,x)[2]<threshold )
-            ) {
+            ) 
+            {
                 rgb.at<Vec3b>(y,x)[0]=0;
                 rgb.at<Vec3b>(y,x)[1]=0;
                 rgb.at<Vec3b>(y,x)[2]=0;
-            }
+            } else
+            {
+                rgb.at<Vec3b>(y,x)[0]=255;
+                rgb.at<Vec3b>(y,x)[1]=255;
+                rgb.at<Vec3b>(y,x)[2]=255;
+            }    
 
 
         }
@@ -104,36 +110,52 @@ void eliminateDark(cv::Mat &rgb,int threshold)
 
 int main(int argc, char *argv[])
 {
-    cv::Mat rgb = imread("data/117429389_705588883323143_362726271946068301_n.jpg",CV_LOAD_IMAGE_COLOR);
+    cv::Mat rgb = imread(argv[1],CV_LOAD_IMAGE_COLOR);
 
     imshow("Input",rgb);
     cv::moveWindow("Input",0,0);
 
     boostContrast(rgb,1.99,-250);
     eliminateDark(rgb,25);
+      
+    int dilation_size=1;
+    int dilation_elem = 0;
+    int dilation_type = 0;
+    if( dilation_elem == 0 ){ dilation_type = MORPH_RECT; } else 
+    if( dilation_elem == 1 ){ dilation_type = MORPH_CROSS; } else 
+    if( dilation_elem == 2) { dilation_type = MORPH_ELLIPSE; }
+     
+     cv::Mat kernel = getStructuringElement( dilation_type,
+                       Size( 2*dilation_size + 1, 2*dilation_size+1 ),
+                       Point( dilation_size, dilation_size ) );
 
+    //cv::dilate(rgb,rgb, kernel, Point(-1, -1), 2, 1, 1); 
+    //cv::erode(rgb,rgb, kernel, Point(-1, -1), 2, 1, 1);
     std::vector<KeyPoint> keypoints;
 
 
 
     // Setup SimpleBlobDetector parameters.
     SimpleBlobDetector::Params params;
+    
+    params.blobColor=255; //Light Blobs
 
     // Change thresholds
-    params.minThreshold = 10;
-    params.maxThreshold = 250;
+    params.minThreshold = 5;
+    params.maxThreshold = 45;
 
     // Filter by Area.
     params.filterByArea = true;
     params.minArea = 10;
-
+    params.maxArea = 35;
+    
     // Filter by Circularity
     params.filterByCircularity = true;
-    params.minCircularity = 0.1;
+    params.minCircularity = 0.7;
 
     // Filter by Convexity
-    params.filterByConvexity = true;
-    params.minConvexity = 0.57;
+    params.filterByConvexity = false;
+    params.minConvexity = 0.87;
 
     // Filter by Inertia
     params.filterByInertia = false;
