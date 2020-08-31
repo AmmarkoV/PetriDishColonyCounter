@@ -18,7 +18,16 @@ set(PNG_Libs png )
 #------------------------------------------------------------------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------------------------------------------------------------------
-
+ SET(wxWidgets_USE_LIBS)
+ FIND_PACKAGE(wxWidgets)
+ IF(wxWidgets_FOUND)
+   INCLUDE("${wxWidgets_USE_FILE}") 
+   #target_link_libraries(flashyslideshowsgui ${wxWidgets_LIBRARIES} )
+   # and for each of your dependant executable/library targets: 
+ ELSE(wxWidgets_FOUND)
+   # For convenience. When we cannot continue, inform the user
+   MESSAGE("wxWidgets not found!")
+ ENDIF(wxWidgets_FOUND)
 
 
 #Autosearch for the opencv maybe installed by the user..!
