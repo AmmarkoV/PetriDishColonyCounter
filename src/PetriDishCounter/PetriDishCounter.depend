@@ -1118,10 +1118,12 @@
 1585059103 /usr/include/wx-3.0/wx/gtk/statline.h
 	"wx/defs.h"
 
-1598902032 source:/home/ammar/Documents/Programming/PetriDishColonyCounter/src/PetriDishCounter/PetriDishCounterMain.cpp
+1598902833 source:/home/ammar/Documents/Programming/PetriDishColonyCounter/src/PetriDishCounter/PetriDishCounterMain.cpp
 	"PetriDishCounterMain.h"
 	<wx/msgdlg.h>
+	<wx/bitmap.h>
 	<wx/font.h>
+	<wx/image.h>
 	<wx/intl.h>
 	<wx/string.h>
 

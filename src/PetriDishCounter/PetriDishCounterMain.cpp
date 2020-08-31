@@ -97,7 +97,7 @@ PetriDishCounterFrame::PetriDishCounterFrame(wxWindow* parent,wxWindowID id)
     Create(parent, id, _("Petri Dish Counter "), wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE, _T("id"));
     SetClientSize(wxSize(1280,720));
     StaticBox1 = new wxStaticBox(this, ID_STATICBOX1, _("Input Feed"), wxPoint(8,8), wxSize(968,658), 0, _T("ID_STATICBOX1"));
-    StaticBitmap1 = new wxStaticBitmap(this, ID_STATICBITMAP1, wxBitmap(wxImage(_T("/home/ammar/Documents/Programming/PetriDishColonyCounter/data/default.bmp")).Rescale(wxSize(950,600).GetWidth(),wxSize(950,600).GetHeight())), wxPoint(16,48), wxSize(950,600), 0, _T("ID_STATICBITMAP1"));
+    StaticBitmap1 = new wxStaticBitmap(this, ID_STATICBITMAP1, wxBitmap(wxImage(_T("/home/ammar/Documents/Programming/PetriDishColonyCounter/data/default.png")).Rescale(wxSize(950,600).GetWidth(),wxSize(950,600).GetHeight())), wxPoint(16,48), wxSize(950,600), 0, _T("ID_STATICBITMAP1"));
     StaticBox2 = new wxStaticBox(this, ID_STATICBOX2, _("Filtering Controls"), wxPoint(984,192), wxSize(280,474), 0, _T("ID_STATICBOX2"));
     StaticBox3 = new wxStaticBox(this, ID_STATICBOX3, _("Current Count"), wxPoint(984,8), wxSize(280,184), 0, _T("ID_STATICBOX3"));
     ResultText = new wxStaticText(this, ID_STATICTEXT1, _("0"), wxPoint(1000,48), wxSize(208,104), 0, _T("ID_STATICTEXT1"));
@@ -106,9 +106,9 @@ PetriDishCounterFrame::PetriDishCounterFrame(wxWindow* parent,wxWindowID id)
     MinThreshold = new wxSpinCtrlDouble(this, ID_SPINCTRLDOUBLE1, _T("5"), wxPoint(992,248), wxSize(130,34), 0, 0, 100, 5, 1, _T("ID_SPINCTRLDOUBLE1"));
     MinThreshold->SetValue(_T("5"));
     StaticText1 = new wxStaticText(this, ID_STATICTEXT2, _("Threshold"), wxPoint(1088,224), wxDefaultSize, 0, _T("ID_STATICTEXT2"));
-    ButtonPrevious = new wxButton(this, ID_BUTTON1, _("Previous"), wxPoint(1032,624), wxSize(80,34), 0, wxDefaultValidator, _T("ID_BUTTON1"));
-    ButtonNext = new wxButton(this, ID_BUTTON2, _("Next"), wxPoint(1136,624), wxSize(80,34), 0, wxDefaultValidator, _T("ID_BUTTON2"));
-    ButtonEnter = new wxButton(this, ID_BUTTON3, _("Sample is OK"), wxPoint(1032,584), wxSize(184,34), 0, wxDefaultValidator, _T("ID_BUTTON3"));
+    ButtonPrevious = new wxButton(this, ID_BUTTON1, _("Previous"), wxPoint(1000,624), wxSize(112,34), 0, wxDefaultValidator, _T("ID_BUTTON1"));
+    ButtonNext = new wxButton(this, ID_BUTTON2, _("Next"), wxPoint(1144,624), wxSize(112,34), 0, wxDefaultValidator, _T("ID_BUTTON2"));
+    ButtonEnter = new wxButton(this, ID_BUTTON3, _("Sample is OK"), wxPoint(1000,560), wxSize(256,58), 0, wxDefaultValidator, _T("ID_BUTTON3"));
     SpinCtrlDouble2 = new wxSpinCtrlDouble(this, ID_SPINCTRLDOUBLE2, _T("5"), wxPoint(992,312), wxSize(130,34), 0, 0, 100, 5, 1, _T("ID_SPINCTRLDOUBLE2"));
     SpinCtrlDouble2->SetValue(_T("5"));
     MaxThreshold = new wxSpinCtrlDouble(this, ID_SPINCTRLDOUBLE3, _T("45"), wxPoint(1128,248), wxSize(130,34), 0, 0, 100, 45, 1, _T("ID_SPINCTRLDOUBLE3"));
