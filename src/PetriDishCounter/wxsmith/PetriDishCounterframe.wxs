@@ -99,7 +99,7 @@
 		<object class="wxCheckBox" name="ID_CHECKBOX1" variable="CheckBoxCircularity" member="yes">
 			<label>Circularity</label>
 			<checked>1</checked>
-			<pos>1008,368</pos>
+			<pos>1000,368</pos>
 		</object>
 		<object class="wxSpinCtrlDouble" name="ID_SPINCTRLDOUBLE6" variable="SpinCtrlDouble4" member="yes">
 			<value>0.01</value>
@@ -111,7 +111,7 @@
 		<object class="wxCheckBox" name="ID_CHECKBOX2" variable="CheckBoxInertia" member="yes">
 			<label>Inertia</label>
 			<checked>1</checked>
-			<pos>1008,416</pos>
+			<pos>1000,414</pos>
 		</object>
 		<object class="wxCheckBox" name="ID_CHECKBOX3" variable="CheckBoxFilterByArea" member="yes">
 			<label>Filter by Area</label>
@@ -120,7 +120,7 @@
 		</object>
 		<object class="wxCheckBox" name="ID_CHECKBOX4" variable="CheckBoxConvexity" member="yes">
 			<label>Convexity</label>
-			<pos>1008,464</pos>
+			<pos>1000,462</pos>
 		</object>
 		<object class="wxSpinCtrlDouble" name="ID_SPINCTRLDOUBLE7" variable="SpinCtrlDouble5" member="yes">
 			<value>0.87</value>
@@ -132,7 +132,7 @@
 		<object class="wxCheckBox" name="ID_CHECKBOX5" variable="CheckBoxDilate" member="yes">
 			<label>Dilate</label>
 			<checked>1</checked>
-			<pos>1008,504</pos>
+			<pos>1000,504</pos>
 		</object>
 		<object class="wxCheckBox" name="ID_CHECKBOX6" variable="CheckBoxErode" member="yes">
 			<label>Erode</label>
