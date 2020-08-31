@@ -161,7 +161,7 @@
 				<object class="wxMenuItem" name="commandImportFolder" variable="MenuItem4" member="yes">
 					<label>Import Folder</label>
 				</object>
-				<object class="wxMenuItem" name="ID_MENUITEM1" variable="MenuItem5" member="yes">
+				<object class="wxMenuItem" name="commandLiveFromCamera" variable="MenuItem5" member="yes">
 					<label>Import From Camera</label>
 				</object>
 				<object class="wxMenuItem" name="idMenuQuit" variable="MenuItem1" member="no">

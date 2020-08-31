@@ -23,6 +23,8 @@
 #include <wx/statusbr.h>
 //*)
 
+#include <wx/dc.h>
+
 class PetriDishCounterFrame: public wxFrame
 {
     public:
@@ -31,6 +33,10 @@ class PetriDishCounterFrame: public wxFrame
         virtual ~PetriDishCounterFrame();
 
     private:
+
+        void OnLoadFromFile(wxCommandEvent& event);
+        void OnLoadFromFolder(wxCommandEvent& event);
+        void OnLiveCameraStream(wxCommandEvent& event);
 
         //(*Handlers(PetriDishCounterFrame)
         void OnQuit(wxCommandEvent& event);
@@ -67,7 +73,7 @@ class PetriDishCounterFrame: public wxFrame
         static const long ID_BUTTON5;
         static const long commandImportFile;
         static const long commandImportFolder;
-        static const long ID_MENUITEM1;
+        static const long commandLiveFromCamera;
         static const long idMenuQuit;
         static const long idMenuAbout;
         static const long ID_STATUSBAR1;
@@ -106,6 +112,10 @@ class PetriDishCounterFrame: public wxFrame
         wxStaticText* StaticText3;
         wxStatusBar* StatusBar1;
         //*)
+
+        void render(wxDC& dc);
+        void OnPaint(wxPaintEvent& evt);
+        void OnMotion(wxMouseEvent& event);
 
         DECLARE_EVENT_TABLE()
 };

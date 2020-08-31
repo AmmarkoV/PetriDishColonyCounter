@@ -580,7 +580,7 @@
 
 1585059103 /usr/include/wx-3.0/wx/gtk/app.h
 
-1598902833 /home/ammar/Documents/Programming/PetriDishColonyCounter/src/PetriDishCounter/PetriDishCounterMain.h
+1598907706 /home/ammar/Documents/Programming/PetriDishColonyCounter/src/PetriDishCounter/PetriDishCounterMain.h
 	<wx/button.h>
 	<wx/checkbox.h>
 	<wx/frame.h>
@@ -591,6 +591,7 @@
 	<wx/statline.h>
 	<wx/stattext.h>
 	<wx/statusbr.h>
+	<wx/dc.h>
 
 1585059103 /usr/include/wx-3.0/wx/frame.h
 	"wx/toplevel.h"
@@ -1118,7 +1119,7 @@
 1585059103 /usr/include/wx-3.0/wx/gtk/statline.h
 	"wx/defs.h"
 
-1598902833 source:/home/ammar/Documents/Programming/PetriDishColonyCounter/src/PetriDishCounter/PetriDishCounterMain.cpp
+1598907399 source:/home/ammar/Documents/Programming/PetriDishColonyCounter/src/PetriDishCounter/PetriDishCounterMain.cpp
 	"PetriDishCounterMain.h"
 	<wx/msgdlg.h>
 	<wx/bitmap.h>
@@ -1174,4 +1175,50 @@
 1585059103 /usr/include/wx-3.0/wx/generic/msgdlgg.h
 
 1585059103 /usr/include/wx-3.0/wx/gtk/msgdlg.h
+
+1585059103 /usr/include/wx-3.0/wx/dc.h
+	"wx/object.h"
+	"wx/intl.h"
+	"wx/cursor.h"
+	"wx/font.h"
+	"wx/colour.h"
+	"wx/bitmap.h"
+	"wx/brush.h"
+	"wx/pen.h"
+	"wx/palette.h"
+	"wx/dynarray.h"
+	"wx/math.h"
+	"wx/image.h"
+	"wx/region.h"
+	"wx/affinematrix2d.h"
+
+1585059103 /usr/include/wx-3.0/wx/brush.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/gdiobj.h"
+	"wx/gdicmn.h"
+	"wx/msw/brush.h"
+	"wx/x11/brush.h"
+	"wx/gtk/brush.h"
+	"wx/gtk1/brush.h"
+	"wx/dfb/brush.h"
+	"wx/osx/brush.h"
+	"wx/cocoa/brush.h"
+	"wx/os2/brush.h"
+
+1585059103 /usr/include/wx-3.0/wx/gtk/brush.h
+
+1585059103 /usr/include/wx-3.0/wx/affinematrix2d.h
+	"wx/defs.h"
+	"wx/affinematrix2dbase.h"
+
+1585059103 /usr/include/wx-3.0/wx/affinematrix2dbase.h
+	"wx/defs.h"
+	"wx/geometry.h"
+
+1585059103 /usr/include/wx-3.0/wx/geometry.h
+	"wx/defs.h"
+	"wx/utils.h"
+	"wx/gdicmn.h"
+	"wx/math.h"
 

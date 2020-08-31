@@ -9,6 +9,12 @@
 
 #include "PetriDishCounterMain.h"
 #include <wx/msgdlg.h>
+#include <wx/filename.h>
+#include <wx/dc.h>
+#include <wx/dcclient.h>
+#include <wx/wx.h>
+#include <wx/utils.h>
+#include <wx/dir.h>
 
 //(*InternalHeaders(PetriDishCounterFrame)
 #include <wx/bitmap.h>
@@ -74,7 +80,7 @@ const long PetriDishCounterFrame::ID_BUTTON4 = wxNewId();
 const long PetriDishCounterFrame::ID_BUTTON5 = wxNewId();
 const long PetriDishCounterFrame::commandImportFile = wxNewId();
 const long PetriDishCounterFrame::commandImportFolder = wxNewId();
-const long PetriDishCounterFrame::ID_MENUITEM1 = wxNewId();
+const long PetriDishCounterFrame::commandLiveFromCamera = wxNewId();
 const long PetriDishCounterFrame::idMenuQuit = wxNewId();
 const long PetriDishCounterFrame::idMenuAbout = wxNewId();
 const long PetriDishCounterFrame::ID_STATUSBAR1 = wxNewId();
@@ -144,7 +150,7 @@ PetriDishCounterFrame::PetriDishCounterFrame(wxWindow* parent,wxWindowID id)
     Menu1->Append(MenuItem3);
     MenuItem4 = new wxMenuItem(Menu1, commandImportFolder, _("Import Folder"), wxEmptyString, wxITEM_NORMAL);
     Menu1->Append(MenuItem4);
-    MenuItem5 = new wxMenuItem(Menu1, ID_MENUITEM1, _("Import From Camera"), wxEmptyString, wxITEM_NORMAL);
+    MenuItem5 = new wxMenuItem(Menu1, commandLiveFromCamera, _("Import From Camera"), wxEmptyString, wxITEM_NORMAL);
     Menu1->Append(MenuItem5);
     MenuItem1 = new wxMenuItem(Menu1, idMenuQuit, _("Quit\tAlt-F4"), _("Quit the application"), wxITEM_NORMAL);
     Menu1->Append(MenuItem1);
@@ -164,12 +170,69 @@ PetriDishCounterFrame::PetriDishCounterFrame(wxWindow* parent,wxWindowID id)
     Connect(idMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&PetriDishCounterFrame::OnQuit);
     Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&PetriDishCounterFrame::OnAbout);
     //*)
+    Connect(commandImportFile,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&PetriDishCounterFrame::OnLoadFromFile);
+    Connect(commandImportFolder,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&PetriDishCounterFrame::OnLoadFromFolder);
+    Connect(commandLiveFromCamera,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&PetriDishCounterFrame::OnLiveCameraStream);
+}
+
+
+void PetriDishCounterFrame::render(wxDC& dc)
+{
+    /*
+  if ( (rgbFrame!=0) && (live_feeds[0].bmp!=0) )
+   { dc.DrawBitmap(*live_feeds[0].bmp,feed_0_x,feed_0_y,0); } //FEED 1
+
+  if ( (depthFrame!=0) && (live_feeds[1].bmp!=0) )
+   { dc.DrawBitmap(*live_feeds[1].bmp,feed_1_x,feed_1_y,0); } //FEED 2
+
+
+
+   if (recording)
+   { //DRAW RECORDING DECAL ON LEFT FEED
+     wxPen red(wxColour(255,0,0),1,wxSOLID);
+     dc.SetPen(red);
+     dc.SetBrush(*wxRED_BRUSH); //*wxTRANSPARENT_BRUSH
+     dc.DrawCircle(50,50,10); //Recording Mark ON!
+   }
+
+   DrawAFPoints(dc ,feed_0_x,feed_0_y);
+   DrawFeaturesAtFeed(dc,feed_0_x,feed_0_y,ListCtrlPoints);
+
+ wxSleep(0.01);
+ wxYieldIfNeeded();*/
+}
+
+void PetriDishCounterFrame::OnPaint(wxPaintEvent& evt)
+{
+    wxPaintDC dc(this);
+    render(dc);
+}
+
+void PetriDishCounterFrame::OnMotion(wxMouseEvent& event)
+{
+  int x=event.GetX();
+  int y=event.GetY();
 }
 
 PetriDishCounterFrame::~PetriDishCounterFrame()
 {
     //(*Destroy(PetriDishCounterFrame)
     //*)
+}
+
+void PetriDishCounterFrame::OnLoadFromFile(wxCommandEvent& event)
+{
+    Close();
+}
+
+void PetriDishCounterFrame::OnLoadFromFolder(wxCommandEvent& event)
+{
+    Close();
+}
+
+void PetriDishCounterFrame::OnLiveCameraStream(wxCommandEvent& event)
+{
+    Close();
 }
 
 void PetriDishCounterFrame::OnQuit(wxCommandEvent& event)
