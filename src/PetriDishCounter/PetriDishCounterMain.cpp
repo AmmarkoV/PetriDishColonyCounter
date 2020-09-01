@@ -24,6 +24,12 @@
 #include <wx/string.h>
 //*)
 
+#include <wx/filedlg.h>
+#include <wx/dirdlg.h>
+#include <wx/wfstream.h>
+
+#include "cv.h"
+
 //helper functions
 enum wxbuildinfoformat {
     short_f, long_f };
@@ -82,6 +88,9 @@ const long PetriDishCounterFrame::commandImportFile = wxNewId();
 const long PetriDishCounterFrame::commandImportFolder = wxNewId();
 const long PetriDishCounterFrame::commandLiveFromCamera = wxNewId();
 const long PetriDishCounterFrame::idMenuQuit = wxNewId();
+const long PetriDishCounterFrame::viewRawImage = wxNewId();
+const long PetriDishCounterFrame::viewNormalWithOverlay = wxNewId();
+const long PetriDishCounterFrame::viewInternal = wxNewId();
 const long PetriDishCounterFrame::idMenuAbout = wxNewId();
 const long PetriDishCounterFrame::ID_STATUSBAR1 = wxNewId();
 //*)
@@ -89,6 +98,8 @@ const long PetriDishCounterFrame::ID_STATUSBAR1 = wxNewId();
 BEGIN_EVENT_TABLE(PetriDishCounterFrame,wxFrame)
     //(*EventTable(PetriDishCounterFrame)
     //*)
+    EVT_PAINT(PetriDishCounterFrame::OnPaint)
+    EVT_MOTION(PetriDishCounterFrame::OnMotion)
 END_EVENT_TABLE()
 
 PetriDishCounterFrame::PetriDishCounterFrame(wxWindow* parent,wxWindowID id)
@@ -155,6 +166,14 @@ PetriDishCounterFrame::PetriDishCounterFrame(wxWindow* parent,wxWindowID id)
     MenuItem1 = new wxMenuItem(Menu1, idMenuQuit, _("Quit\tAlt-F4"), _("Quit the application"), wxITEM_NORMAL);
     Menu1->Append(MenuItem1);
     MenuBar1->Append(Menu1, _("&File"));
+    Menu3 = new wxMenu();
+    MenuItem6 = new wxMenuItem(Menu3, viewRawImage, _("Input Image"), wxEmptyString, wxITEM_NORMAL);
+    Menu3->Append(MenuItem6);
+    MenuItem7 = new wxMenuItem(Menu3, viewNormalWithOverlay, _("Image with overlay"), wxEmptyString, wxITEM_NORMAL);
+    Menu3->Append(MenuItem7);
+    MenuItem8 = new wxMenuItem(Menu3, viewInternal, _("Internal image"), wxEmptyString, wxITEM_NORMAL);
+    Menu3->Append(MenuItem8);
+    MenuBar1->Append(Menu3, _("View"));
     Menu2 = new wxMenu();
     MenuItem2 = new wxMenuItem(Menu2, idMenuAbout, _("About\tF1"), _("Show info about this application"), wxITEM_NORMAL);
     Menu2->Append(MenuItem2);
@@ -175,6 +194,16 @@ PetriDishCounterFrame::PetriDishCounterFrame(wxWindow* parent,wxWindowID id)
     Connect(commandLiveFromCamera,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&PetriDishCounterFrame::OnLiveCameraStream);
 }
 
+void PetriDishCounterFrame::triggerProcessing()
+{
+   int result = processLoadedImage(0);
+
+   char numberShown[128];
+   snprintf(numberShown,128,"%u",result);
+   ResultText->SetLabel(wxString::FromUTF8(numberShown));
+   //accessRGBPixels(unsigned int * width,unsigned int * height);
+}
+
 
 void PetriDishCounterFrame::render(wxDC& dc)
 {
@@ -191,7 +220,7 @@ void PetriDishCounterFrame::render(wxDC& dc)
    { //DRAW RECORDING DECAL ON LEFT FEED
      wxPen red(wxColour(255,0,0),1,wxSOLID);
      dc.SetPen(red);
-     dc.SetBrush(*wxRED_BRUSH); //*wxTRANSPARENT_BRUSH
+     dc.SetBrush(*wxRED_BRUSH); // *wxTRANSPARENT_BRUSH
      dc.DrawCircle(50,50,10); //Recording Mark ON!
    }
 
@@ -222,12 +251,44 @@ PetriDishCounterFrame::~PetriDishCounterFrame()
 
 void PetriDishCounterFrame::OnLoadFromFile(wxCommandEvent& event)
 {
-    Close();
+    wxFileDialog openFileDialog(this, _("Open JPEG file"), "", "", "JPEG files (*.jpg)|*.jpg", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
+    if (openFileDialog.ShowModal() == wxID_CANCEL)
+        return;     // the user changed idea...
+    // proceed loading the file chosen by the user;
+    // this can be done with e.g. wxWidgets input streams:
+
+    fprintf(stderr,"File requested to open is : %s \n",openFileDialog.GetPath().mb_str().data());
+
+    wxFileInputStream input_stream(openFileDialog.GetPath());
+    if (!input_stream.IsOk())
+    {
+        wxLogError("Cannot open file '%s'.", openFileDialog.GetPath());
+        return;
+    } else
+    {
+      int result = loadAnImage(openFileDialog.GetPath().mb_str().data());
+      if (!result)
+      {
+        wxMessageBox(_("Failed loading image.."), _("Error"), wxICON_ERROR, this);
+      } else
+      {
+        triggerProcessing();
+      }
+    }
 }
 
 void PetriDishCounterFrame::OnLoadFromFolder(wxCommandEvent& event)
 {
-    Close();
+
+ wxDirDialog openDirectoryDialog(this, _("Choose input directory"), "", wxDD_DEFAULT_STYLE|wxDD_DIR_MUST_EXIST);
+    if (openDirectoryDialog.ShowModal() == wxID_CANCEL)
+        return;     // the user changed idea...
+    // proceed loading the file chosen by the user;
+    // this can be done with e.g. wxWidgets input streams:
+
+    fprintf(stderr,"Directory requested to open is : %s \n",openDirectoryDialog.GetPath().mb_str().data());
+
+
 }
 
 void PetriDishCounterFrame::OnLiveCameraStream(wxCommandEvent& event)

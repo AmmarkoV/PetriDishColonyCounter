@@ -31,16 +31,19 @@
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="`wx-config --cflags`" />
 			<Add option="-Wall" />
+			<Add option="`wx-config --cflags`" />
 		</Compiler>
 		<Linker>
 			<Add option="`wx-config --libs`" />
+			<Add option="`pkg-config --libs opencv`" />
 		</Linker>
 		<Unit filename="PetriDishCounterApp.cpp" />
 		<Unit filename="PetriDishCounterApp.h" />
 		<Unit filename="PetriDishCounterMain.cpp" />
 		<Unit filename="PetriDishCounterMain.h" />
+		<Unit filename="cv.cpp" />
+		<Unit filename="cv.h" />
 		<Unit filename="wxsmith/PetriDishCounterframe.wxs" />
 		<Extensions>
 			<wxsmith version="1">

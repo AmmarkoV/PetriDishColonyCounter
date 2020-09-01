@@ -33,6 +33,7 @@ class PetriDishCounterFrame: public wxFrame
         virtual ~PetriDishCounterFrame();
 
     private:
+        void triggerProcessing();
 
         void OnLoadFromFile(wxCommandEvent& event);
         void OnLoadFromFolder(wxCommandEvent& event);
@@ -75,6 +76,9 @@ class PetriDishCounterFrame: public wxFrame
         static const long commandImportFolder;
         static const long commandLiveFromCamera;
         static const long idMenuQuit;
+        static const long viewRawImage;
+        static const long viewNormalWithOverlay;
+        static const long viewInternal;
         static const long idMenuAbout;
         static const long ID_STATUSBAR1;
         //*)
@@ -91,9 +95,13 @@ class PetriDishCounterFrame: public wxFrame
         wxCheckBox* CheckBoxErode;
         wxCheckBox* CheckBoxFilterByArea;
         wxCheckBox* CheckBoxInertia;
+        wxMenu* Menu3;
         wxMenuItem* MenuItem3;
         wxMenuItem* MenuItem4;
         wxMenuItem* MenuItem5;
+        wxMenuItem* MenuItem6;
+        wxMenuItem* MenuItem7;
+        wxMenuItem* MenuItem8;
         wxSpinCtrlDouble* MaxThreshold;
         wxSpinCtrlDouble* MinThreshold;
         wxSpinCtrlDouble* SpinCtrlDouble1;
