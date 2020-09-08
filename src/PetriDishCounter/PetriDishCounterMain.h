@@ -119,6 +119,9 @@ class PetriDishCounterFrame: public wxFrame
         wxStatusBar* StatusBar1;
         //*)
 
+        unsigned int mousePositionX;
+        unsigned int mousePositionY;
+
         wxBitmap * visualizationBitmap;
         wxImage * visualizationImage;
         struct processingInformation settings;
@@ -126,6 +129,14 @@ class PetriDishCounterFrame: public wxFrame
         void render(wxDC& dc);
         void OnPaint(wxPaintEvent& evt);
         void OnMotion(wxMouseEvent& event);
+        void OnLeftClick(wxMouseEvent& event);
+        void OnRightClick(wxMouseEvent& event);
+
+
+        void OnSwitchVisualizationToRGB(wxCommandEvent& event);
+        void OnSwitchVisualizationToRGBWithOverlay(wxCommandEvent& event);
+        void OnSwitchVisualizationToInternal(wxCommandEvent& event);
+
 
         DECLARE_EVENT_TABLE()
 };

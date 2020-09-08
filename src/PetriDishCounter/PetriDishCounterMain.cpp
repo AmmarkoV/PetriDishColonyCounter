@@ -97,6 +97,7 @@ BEGIN_EVENT_TABLE(PetriDishCounterFrame,wxFrame)
     //*)
     EVT_PAINT(PetriDishCounterFrame::OnPaint)
     EVT_MOTION(PetriDishCounterFrame::OnMotion)
+    EVT_LEFT_UP(PetriDishCounterFrame::OnLeftClick)
 END_EVENT_TABLE()
 
 PetriDishCounterFrame::PetriDishCounterFrame(wxWindow* parent,wxWindowID id)
@@ -189,6 +190,13 @@ PetriDishCounterFrame::PetriDishCounterFrame(wxWindow* parent,wxWindowID id)
     Connect(commandImportFolder,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&PetriDishCounterFrame::OnLoadFromFolder);
     Connect(commandLiveFromCamera,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&PetriDishCounterFrame::OnLiveCameraStream);
 
+
+    Connect(viewRawImage,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&PetriDishCounterFrame::OnSwitchVisualizationToRGB);
+    Connect(viewNormalWithOverlay,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&PetriDishCounterFrame::OnSwitchVisualizationToRGBWithOverlay);
+    Connect(viewInternal,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&PetriDishCounterFrame::OnSwitchVisualizationToInternal);
+
+
+
     wxSize imageSize = wxSize(950,600);
     visualizationImage = new wxImage(imageSize);
     visualizationBitmap = new wxBitmap(*visualizationImage);
@@ -202,46 +210,37 @@ void PetriDishCounterFrame::triggerProcessing()
    snprintf(numberShown,128,"%u",result);
    ResultText->SetLabel(wxString::FromUTF8(numberShown));
    //
-   unsigned int width;
-   unsigned int height;
-   unsigned char * data = accessRGBPixels(&width,&height);
-
-   if (data!=0)
-    {
-        visualizationImage->SetData(data,width,height,true);
-
-        if (visualizationBitmap!=0) { delete visualizationBitmap; }
-        visualizationBitmap = new wxBitmap(*visualizationImage);
-    }
+   wxCommandEvent dummyEvent;
+   //Do the internal visualization by default
+   OnSwitchVisualizationToInternal(dummyEvent);
 }
 
 
 void PetriDishCounterFrame::render(wxDC& dc)
 {
-  dc.DrawBitmap(*visualizationBitmap,18,30,false);
+  unsigned int frameStartX = 18;
+  unsigned int frameStartY = 30;
+  unsigned int frameEndX = visualizationImage->GetSize().GetWidth();
+  unsigned int frameEndY = visualizationImage->GetSize().GetHeight();
 
-    /*
-  if ( (rgbFrame!=0) && (live_feeds[0].bmp!=0) )
-   { dc.DrawBitmap(*live_feeds[0].bmp,feed_0_x,feed_0_y,0); } //FEED 1
+  dc.DrawBitmap(*visualizationBitmap,frameStartX,frameStartY,false);
 
-  if ( (depthFrame!=0) && (live_feeds[1].bmp!=0) )
-   { dc.DrawBitmap(*live_feeds[1].bmp,feed_1_x,feed_1_y,0); } //FEED 2
-
-
-
-   if (recording)
+  if (
+       (mousePositionX > frameStartX) &&
+       (mousePositionY > frameStartY) &&
+       (mousePositionX < frameEndX) &&
+       (mousePositionY < frameEndY)
+      )
    { //DRAW RECORDING DECAL ON LEFT FEED
      wxPen red(wxColour(255,0,0),1,wxSOLID);
      dc.SetPen(red);
      dc.SetBrush(*wxRED_BRUSH); // *wxTRANSPARENT_BRUSH
-     dc.DrawCircle(50,50,10); //Recording Mark ON!
+     dc.DrawCircle(mousePositionX,mousePositionY,10); //Recording Mark ON!
    }
 
-   DrawAFPoints(dc ,feed_0_x,feed_0_y);
-   DrawFeaturesAtFeed(dc,feed_0_x,feed_0_y,ListCtrlPoints);
 
  wxSleep(0.01);
- wxYieldIfNeeded();*/
+ wxYieldIfNeeded();
 }
 
 void PetriDishCounterFrame::OnPaint(wxPaintEvent& evt)
@@ -250,10 +249,64 @@ void PetriDishCounterFrame::OnPaint(wxPaintEvent& evt)
     render(dc);
 }
 
+//Mouse stuff--------------------------------------------
 void PetriDishCounterFrame::OnMotion(wxMouseEvent& event)
 {
-  int x=event.GetX();
-  int y=event.GetY();
+  mousePositionX=event.GetX();
+  mousePositionY=event.GetY();
+  Refresh();
+}
+
+void PetriDishCounterFrame::OnLeftClick(wxMouseEvent& event)
+{
+  mousePositionX=event.GetX();
+  mousePositionY=event.GetY();
+  Refresh();
+}
+
+void PetriDishCounterFrame::OnRightClick(wxMouseEvent& event)
+{
+  mousePositionX=event.GetX();
+  mousePositionY=event.GetY();
+  Refresh();
+}
+//-------------------------------------------------------
+
+
+void PetriDishCounterFrame::OnSwitchVisualizationToRGB(wxCommandEvent& event)
+{
+  unsigned int width;
+  unsigned int height;
+  unsigned char * data = accessRGBPixels(&width,&height);
+
+  if (data!=0)
+    {
+        visualizationImage->SetData(data,width,height,true);
+
+        if (visualizationBitmap!=0) { delete visualizationBitmap; }
+        visualizationBitmap = new wxBitmap(*visualizationImage);
+    }
+  Refresh();
+}
+
+void PetriDishCounterFrame::OnSwitchVisualizationToRGBWithOverlay(wxCommandEvent& event)
+{
+}
+
+void PetriDishCounterFrame::OnSwitchVisualizationToInternal(wxCommandEvent& event)
+{
+  unsigned int width;
+  unsigned int height;
+  unsigned char * data = accessInternalPixels(&width,&height);
+
+  if (data!=0)
+    {
+        visualizationImage->SetData(data,width,height,true);
+
+        if (visualizationBitmap!=0) { delete visualizationBitmap; }
+        visualizationBitmap = new wxBitmap(*visualizationImage);
+    }
+  Refresh();
 }
 
 PetriDishCounterFrame::~PetriDishCounterFrame()
@@ -306,12 +359,13 @@ void PetriDishCounterFrame::OnLoadFromFolder(wxCommandEvent& event)
 
 void PetriDishCounterFrame::OnLiveCameraStream(wxCommandEvent& event)
 {
-    Close();
+    wxMessageBox(_("This feature is under construction...") , _("Not implemented yet..."));
 }
 
 void PetriDishCounterFrame::OnQuit(wxCommandEvent& event)
 {
     Close();
+    exit(0);
 }
 
 void PetriDishCounterFrame::OnAbout(wxCommandEvent& event)

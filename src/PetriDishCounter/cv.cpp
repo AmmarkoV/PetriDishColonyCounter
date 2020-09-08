@@ -113,11 +113,17 @@ void eliminateDark(cv::Mat &rgb,int threshold)
 
 unsigned char * accessRGBPixels(unsigned int * width,unsigned int * height)
 {
+  *width = rgb.size().width;
+  *height = rgb.size().height;
+  return rgb.data;
+}
+
+unsigned char * accessInternalPixels(unsigned int * width,unsigned int * height)
+{
   *width = im_with_keypoints.size().width;
   *height = im_with_keypoints.size().height;
   return im_with_keypoints.data;
 }
-
 
 int loadAnImage(const char * filename)
 {
