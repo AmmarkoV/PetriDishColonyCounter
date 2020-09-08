@@ -580,17 +580,17 @@
 
 1585059103 /usr/include/wx-3.0/wx/gtk/app.h
 
-1598918886 /home/ammar/Documents/Programming/PetriDishColonyCounter/src/PetriDishCounter/PetriDishCounterMain.h
+1599606786 /home/ammar/Documents/Programming/PetriDishColonyCounter/src/PetriDishCounter/PetriDishCounterMain.h
 	<wx/button.h>
 	<wx/checkbox.h>
 	<wx/frame.h>
 	<wx/menu.h>
 	<wx/spinctrl.h>
-	<wx/statbmp.h>
 	<wx/statbox.h>
 	<wx/statline.h>
 	<wx/stattext.h>
 	<wx/statusbr.h>
+	"cv.h"
 	<wx/dc.h>
 
 1585059103 /usr/include/wx-3.0/wx/frame.h
@@ -1119,7 +1119,7 @@
 1585059103 /usr/include/wx-3.0/wx/gtk/statline.h
 	"wx/defs.h"
 
-1598918580 source:/home/ammar/Documents/Programming/PetriDishColonyCounter/src/PetriDishCounter/PetriDishCounterMain.cpp
+1599606400 source:/home/ammar/Documents/Programming/PetriDishColonyCounter/src/PetriDishCounter/PetriDishCounterMain.cpp
 	"PetriDishCounterMain.h"
 	<wx/msgdlg.h>
 	<wx/filename.h>
@@ -1128,9 +1128,7 @@
 	<wx/wx.h>
 	<wx/utils.h>
 	<wx/dir.h>
-	<wx/bitmap.h>
 	<wx/font.h>
-	<wx/image.h>
 	<wx/intl.h>
 	<wx/string.h>
 	<wx/filedlg.h>
@@ -1724,7 +1722,7 @@
 	"wx/string.h"
 	"wx/filefn.h"
 
-1598919049 source:/home/ammar/Documents/Programming/PetriDishColonyCounter/src/PetriDishCounter/cv.cpp
+1599606292 source:/home/ammar/Documents/Programming/PetriDishColonyCounter/src/PetriDishCounter/cv.cpp
 	"opencv2/opencv.hpp"
 	<stdio.h>
 	<vector>
@@ -1744,5 +1742,5 @@
 	"wx/convauto.h"
 	<stdio.h>
 
-1598918042 /home/ammar/Documents/Programming/PetriDishColonyCounter/src/PetriDishCounter/cv.h
+1599606600 /home/ammar/Documents/Programming/PetriDishColonyCounter/src/PetriDishCounter/cv.h
 

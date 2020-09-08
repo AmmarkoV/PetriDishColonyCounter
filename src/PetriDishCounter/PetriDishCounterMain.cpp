@@ -17,9 +17,7 @@
 #include <wx/dir.h>
 
 //(*InternalHeaders(PetriDishCounterFrame)
-#include <wx/bitmap.h>
 #include <wx/font.h>
-#include <wx/image.h>
 #include <wx/intl.h>
 #include <wx/string.h>
 //*)
@@ -58,7 +56,6 @@ wxString wxbuildinfo(wxbuildinfoformat format)
 
 //(*IdInit(PetriDishCounterFrame)
 const long PetriDishCounterFrame::ID_STATICBOX1 = wxNewId();
-const long PetriDishCounterFrame::ID_STATICBITMAP1 = wxNewId();
 const long PetriDishCounterFrame::ID_STATICBOX2 = wxNewId();
 const long PetriDishCounterFrame::ID_STATICBOX3 = wxNewId();
 const long PetriDishCounterFrame::ID_STATICTEXT1 = wxNewId();
@@ -114,7 +111,6 @@ PetriDishCounterFrame::PetriDishCounterFrame(wxWindow* parent,wxWindowID id)
     Create(parent, id, _("Petri Dish Counter "), wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE, _T("id"));
     SetClientSize(wxSize(1280,720));
     StaticBox1 = new wxStaticBox(this, ID_STATICBOX1, _("Input Feed"), wxPoint(8,8), wxSize(968,658), 0, _T("ID_STATICBOX1"));
-    StaticBitmap1 = new wxStaticBitmap(this, ID_STATICBITMAP1, wxBitmap(wxImage(_T("/home/ammar/Documents/Programming/PetriDishColonyCounter/data/default.png")).Rescale(wxSize(950,600).GetWidth(),wxSize(950,600).GetHeight())), wxPoint(16,48), wxSize(950,600), 0, _T("ID_STATICBITMAP1"));
     StaticBox2 = new wxStaticBox(this, ID_STATICBOX2, _("Filtering Controls"), wxPoint(984,192), wxSize(280,474), 0, _T("ID_STATICBOX2"));
     StaticBox3 = new wxStaticBox(this, ID_STATICBOX3, _("Current Count"), wxPoint(984,8), wxSize(280,184), 0, _T("ID_STATICBOX3"));
     ResultText = new wxStaticText(this, ID_STATICTEXT1, _("0"), wxPoint(1000,48), wxSize(208,104), 0, _T("ID_STATICTEXT1"));
@@ -192,21 +188,38 @@ PetriDishCounterFrame::PetriDishCounterFrame(wxWindow* parent,wxWindowID id)
     Connect(commandImportFile,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&PetriDishCounterFrame::OnLoadFromFile);
     Connect(commandImportFolder,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&PetriDishCounterFrame::OnLoadFromFolder);
     Connect(commandLiveFromCamera,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&PetriDishCounterFrame::OnLiveCameraStream);
+
+    wxSize imageSize = wxSize(950,600);
+    visualizationImage = new wxImage(imageSize);
+    visualizationBitmap = new wxBitmap(*visualizationImage);
 }
 
 void PetriDishCounterFrame::triggerProcessing()
 {
-   int result = processLoadedImage(0);
+   int result = processLoadedImage(&settings);
 
    char numberShown[128];
    snprintf(numberShown,128,"%u",result);
    ResultText->SetLabel(wxString::FromUTF8(numberShown));
-   //accessRGBPixels(unsigned int * width,unsigned int * height);
+   //
+   unsigned int width;
+   unsigned int height;
+   unsigned char * data = accessRGBPixels(&width,&height);
+
+   if (data!=0)
+    {
+        visualizationImage->SetData(data,width,height,true);
+
+        if (visualizationBitmap!=0) { delete visualizationBitmap; }
+        visualizationBitmap = new wxBitmap(*visualizationImage);
+    }
 }
 
 
 void PetriDishCounterFrame::render(wxDC& dc)
 {
+  dc.DrawBitmap(*visualizationBitmap,18,30,false);
+
     /*
   if ( (rgbFrame!=0) && (live_feeds[0].bmp!=0) )
    { dc.DrawBitmap(*live_feeds[0].bmp,feed_0_x,feed_0_y,0); } //FEED 1

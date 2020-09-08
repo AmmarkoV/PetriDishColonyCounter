@@ -5,6 +5,7 @@
  */
 #include <stdio.h>
 #include <vector>
+#include "cv.h"
 
 using namespace std;
 using namespace cv;
@@ -110,10 +111,11 @@ void eliminateDark(cv::Mat &rgb,int threshold)
     }
 }
 
-const char * accessRGBPixels(unsigned int * width,unsigned int * height)
+unsigned char * accessRGBPixels(unsigned int * width,unsigned int * height)
 {
-
-
+  *width = im_with_keypoints.size().width;
+  *height = im_with_keypoints.size().height;
+  return im_with_keypoints.data;
 }
 
 
@@ -127,8 +129,8 @@ int loadAnImage(const char * filename)
         return 0;
     }
 
-    imshow("Input",rgb);
-    cv::moveWindow("Input",0,0);
+    //imshow("Input",rgb);
+    //cv::moveWindow("Input",0,0);
     return 1;
 }
 
@@ -256,13 +258,16 @@ int processLoadedImage(struct processingInformation * settings)
     char str[512]= {0};
     snprintf(str,512,"Counted blobs %lu",keypoints.size());
     cv::Point jointPoint(10,50);
-    cv::putText(im_with_keypoints, str, jointPoint, cv::FONT_HERSHEY_DUPLEX, 1.5, Scalar(0,0,255) , 0.5, 8 );
+    //cv::putText(im_with_keypoints, str, jointPoint, cv::FONT_HERSHEY_DUPLEX, 1.5, Scalar(0,0,255) , 0.5, 8 );
 
 
+    if (settings->viewIntermediate)
+    {
+     imshow("Output",im_with_keypoints);
+     cv::moveWindow("Output",1000,0);
+    }
 
-    imshow("Output",im_with_keypoints);
-    cv::moveWindow("Output",1000,0);
-
+    cv::cvtColor(im_with_keypoints,im_with_keypoints,CV_BGR2RGB);
     //waitKey(0);
     return keypoints.size();
 }

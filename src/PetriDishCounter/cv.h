@@ -21,10 +21,12 @@ struct processingInformation
 
   unsigned char doFilteringByDilation;
   unsigned char doFilteringByErosion;
+
+  char viewIntermediate;
 };
 
 int loadAnImage(const char * filename);
 
 int processLoadedImage(struct processingInformation * settings);
 
-const char * accessRGBPixels(unsigned int * width,unsigned int * height);
+unsigned char * accessRGBPixels(unsigned int * width,unsigned int * height);

@@ -16,13 +16,13 @@
 #include <wx/frame.h>
 #include <wx/menu.h>
 #include <wx/spinctrl.h>
-#include <wx/statbmp.h>
 #include <wx/statbox.h>
 #include <wx/statline.h>
 #include <wx/stattext.h>
 #include <wx/statusbr.h>
 //*)
 
+#include "cv.h"
 #include <wx/dc.h>
 
 class PetriDishCounterFrame: public wxFrame
@@ -46,7 +46,6 @@ class PetriDishCounterFrame: public wxFrame
 
         //(*Identifiers(PetriDishCounterFrame)
         static const long ID_STATICBOX1;
-        static const long ID_STATICBITMAP1;
         static const long ID_STATICBOX2;
         static const long ID_STATICBOX3;
         static const long ID_STATICTEXT1;
@@ -109,7 +108,6 @@ class PetriDishCounterFrame: public wxFrame
         wxSpinCtrlDouble* SpinCtrlDouble3;
         wxSpinCtrlDouble* SpinCtrlDouble4;
         wxSpinCtrlDouble* SpinCtrlDouble5;
-        wxStaticBitmap* StaticBitmap1;
         wxStaticBox* StaticBox1;
         wxStaticBox* StaticBox2;
         wxStaticBox* StaticBox3;
@@ -120,6 +118,10 @@ class PetriDishCounterFrame: public wxFrame
         wxStaticText* StaticText3;
         wxStatusBar* StatusBar1;
         //*)
+
+        wxBitmap * visualizationBitmap;
+        wxImage * visualizationImage;
+        struct processingInformation settings;
 
         void render(wxDC& dc);
         void OnPaint(wxPaintEvent& evt);
