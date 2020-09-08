@@ -275,38 +275,44 @@ void PetriDishCounterFrame::OnRightClick(wxMouseEvent& event)
 
 void PetriDishCounterFrame::OnSwitchVisualizationToRGB(wxCommandEvent& event)
 {
-  unsigned int width;
-  unsigned int height;
+  unsigned int width,height;
   unsigned char * data = accessRGBPixels(&width,&height);
 
   if (data!=0)
     {
         visualizationImage->SetData(data,width,height,true);
-
         if (visualizationBitmap!=0) { delete visualizationBitmap; }
         visualizationBitmap = new wxBitmap(*visualizationImage);
+        Refresh();
     }
-  Refresh();
 }
 
 void PetriDishCounterFrame::OnSwitchVisualizationToRGBWithOverlay(wxCommandEvent& event)
 {
+  unsigned int width,height;
+  unsigned char * data = accessPrettyPixels(&width,&height);
+
+  if (data!=0)
+    {
+        visualizationImage->SetData(data,width,height,true);
+        if (visualizationBitmap!=0) { delete visualizationBitmap; }
+        visualizationBitmap = new wxBitmap(*visualizationImage);
+        Refresh();
+    }
 }
 
 void PetriDishCounterFrame::OnSwitchVisualizationToInternal(wxCommandEvent& event)
 {
-  unsigned int width;
-  unsigned int height;
+  unsigned int width,height;
   unsigned char * data = accessInternalPixels(&width,&height);
 
   if (data!=0)
     {
         visualizationImage->SetData(data,width,height,true);
-
         if (visualizationBitmap!=0) { delete visualizationBitmap; }
         visualizationBitmap = new wxBitmap(*visualizationImage);
+        Refresh();
     }
-  Refresh();
 }
 
 PetriDishCounterFrame::~PetriDishCounterFrame()

@@ -30,4 +30,5 @@ int loadAnImage(const char * filename);
 int processLoadedImage(struct processingInformation * settings);
 
 unsigned char * accessRGBPixels(unsigned int * width,unsigned int * height);
+unsigned char * accessPrettyPixels(unsigned int * width,unsigned int * height);
 unsigned char * accessInternalPixels(unsigned int * width,unsigned int * height);

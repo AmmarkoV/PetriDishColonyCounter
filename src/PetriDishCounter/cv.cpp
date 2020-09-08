@@ -11,6 +11,8 @@ using namespace std;
 using namespace cv;
 
 cv::Mat rgb;
+cv::Mat intermediate;
+cv::Mat pretty;
 cv::Mat im_with_keypoints;
 
 
@@ -118,6 +120,14 @@ unsigned char * accessRGBPixels(unsigned int * width,unsigned int * height)
   return rgb.data;
 }
 
+
+unsigned char * accessPrettyPixels(unsigned int * width,unsigned int * height)
+{
+  *width = pretty.size().width;
+  *height = pretty.size().height;
+  return pretty.data;
+}
+
 unsigned char * accessInternalPixels(unsigned int * width,unsigned int * height)
 {
   *width = im_with_keypoints.size().width;
@@ -143,8 +153,10 @@ int loadAnImage(const char * filename)
 
 int processLoadedImage(struct processingInformation * settings)
 {
-    boostContrast(rgb,1.99,-210);
-    eliminateDark(rgb,25);
+    pretty = rgb.clone();
+    intermediate = rgb.clone();
+    boostContrast(intermediate,1.99,-210);
+    eliminateDark(intermediate,25);
 
     int dilation_size=1;
     int dilation_elem = 0;
@@ -162,8 +174,8 @@ int processLoadedImage(struct processingInformation * settings)
     kernel.at<float>(2,0)= 0;     kernel.at<float>(2,1)= 0;     kernel.at<float>(2,2)= 0;
 
 
-    cv::dilate(rgb,rgb, kernel, Point(-1, -1), 2, 1, 1);
-    //cv::erode(rgb,rgb, kernel, Point(-1, -1), 2, 1, 1);
+    cv::dilate(intermediate,intermediate, kernel, Point(-1, -1), 2, 1, 1);
+    //cv::erode(intermediate,intermediate, kernel, Point(-1, -1), 2, 1, 1);
     std::vector<KeyPoint> keypoints;
 
 
@@ -199,13 +211,13 @@ int processLoadedImage(struct processingInformation * settings)
 
     // Set up the detector with default parameters.
     // Detect blobs.
-    detector->detect(rgb,keypoints);
+    detector->detect(intermediate,keypoints);
 
 
     fprintf(stderr,"Keypoints detected = %lu \n",keypoints.size());
 
     Mat gray;
-    cvtColor(rgb, gray, COLOR_BGR2GRAY);
+    cvtColor(intermediate, gray, COLOR_BGR2GRAY);
     vector<Vec3f> circles;
     HoughCircles(gray,
                  circles,
@@ -246,7 +258,8 @@ int processLoadedImage(struct processingInformation * settings)
 
     // Draw detected blobs as red circles.
     // DrawMatchesFlags::DRAW_RICH_KEYPOINTS flag ensures the size of the circle corresponds to the size of blob
-    drawKeypoints(rgb,keypoints,im_with_keypoints, Scalar(0,0,255), DrawMatchesFlags::DRAW_RICH_KEYPOINTS ); //DRAW_RICH_KEYPOINTS
+    drawKeypoints(intermediate,keypoints,im_with_keypoints, Scalar(0,0,255), DrawMatchesFlags::DRAW_RICH_KEYPOINTS ); //DRAW_RICH_KEYPOINTS
+    drawKeypoints(pretty,keypoints,im_with_keypoints, Scalar(0,0,255), DrawMatchesFlags::DRAW_RICH_KEYPOINTS ); //DRAW_RICH_KEYPOINTS
 
     for( size_t i = 0; i < circles.size(); i++ )
     {
