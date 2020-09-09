@@ -146,6 +146,8 @@ int loadAnImage(const char * filename)
     //imshow("Input",rgb);
     //cv::moveWindow("Input",0,0);
 
+
+    blur(rgb,rgb,Size(2,2));
     cv::cvtColor(rgb,rgb,CV_BGR2RGB);
 
     return 1;
@@ -167,9 +169,11 @@ int processLoadedImage(struct processingInformation * settings)
     if( dilation_elem == 1 ){ dilation_type = MORPH_CROSS; } else
     if( dilation_elem == 2) { dilation_type = MORPH_ELLIPSE; }
 
-     cv::Mat kernel = getStructuringElement( dilation_type,
-                       Size( 2*dilation_size + 1, 2*dilation_size+1 ),
-                       Point( dilation_size, dilation_size ) );
+     cv::Mat kernel = getStructuringElement(
+                                             dilation_type,
+                                             Size( 2*dilation_size + 1, 2*dilation_size+1 ),
+                                             Point( dilation_size, dilation_size )
+                                            );
 
     kernel.at<float>(0,0)= 0;     kernel.at<float>(0,1)= 0;     kernel.at<float>(0,2)= 0;
     kernel.at<float>(1,0)= 0;     kernel.at<float>(1,1)= 0;     kernel.at<float>(1,2)= 0;
@@ -188,13 +192,13 @@ int processLoadedImage(struct processingInformation * settings)
     params.blobColor=255; //Light Blobs
 
     // Change thresholds
-    params.minThreshold = 5;
-    params.maxThreshold = 45;
+    params.minThreshold = 1;
+    params.maxThreshold = 50;
 
     // Filter by Area.
     params.filterByArea = true;
-    params.minArea = 2;
-    params.maxArea = 44;
+    params.minArea = 1;
+    params.maxArea = 50;
 
     // Filter by Circularity
     params.filterByCircularity = true;
@@ -228,14 +232,12 @@ int processLoadedImage(struct processingInformation * settings)
                  gray.rows/2,  // 	Minimum distance between the centers of the detected circles.
                  100, //the higher threshold of the two passed to the Canny edge detector (the lower one is twice smaller)
                  50,  // it is the accumulator threshold for the circle centers at the detection stage. The smaller it is, the more false circles may be detected
-
                  200,  // min_radius to detect smaller circles
                  300   // max_radius to detect larger circles
     );
 
    if (circles.size()>0)
    {
-
     std::vector<KeyPoint> filteredKeypoints;
     cv::Point petriDishCenter(0,0);
     petriDishCenter.x =  circles[0][0];
@@ -254,7 +256,6 @@ int processLoadedImage(struct processingInformation * settings)
             fprintf(stderr,"Blob @ %u,%u filtered out because of being out of petri dish\n",kp.x,kp.y);
         }
     }
-
     keypoints = filteredKeypoints;
    }
 
