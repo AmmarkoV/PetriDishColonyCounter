@@ -203,6 +203,23 @@ PetriDishCounterFrame::PetriDishCounterFrame(wxWindow* parent,wxWindowID id)
 
     wxSize imageSize = wxSize(950,600);
     visualizationImage = new wxImage(imageSize,true);
+
+    unsigned char * d = visualizationImage->GetData();
+    for (unsigned int y=0; y<imageSize.GetY(); y++)
+    {
+     for (unsigned int x=0; x<imageSize.GetX(); x++)
+     {
+       float progress = 255.0 * (float) y/imageSize.GetY();
+
+       *d= (unsigned char) progress;
+       ++d;
+       *d=255;
+       ++d;
+       *d=255;
+       ++d;
+     }
+    }
+
     visualizationBitmap = new wxBitmap(*visualizationImage);
 }
 
