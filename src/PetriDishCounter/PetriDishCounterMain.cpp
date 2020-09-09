@@ -15,6 +15,8 @@
 #include <wx/wx.h>
 #include <wx/utils.h>
 #include <wx/dir.h>
+#include <wx/datetime.h>
+#include <vector>
 
 //(*InternalHeaders(PetriDishCounterFrame)
 #include <wx/font.h>
@@ -130,7 +132,7 @@ PetriDishCounterFrame::PetriDishCounterFrame(wxWindow* parent,wxWindowID id)
     SpinCtrlDouble1 = new wxSpinCtrlDouble(this, ID_SPINCTRLDOUBLE4, _T("44"), wxPoint(1128,312), wxSize(130,34), 0, 0, 100, 5, 44, _T("ID_SPINCTRLDOUBLE4"));
     SpinCtrlDouble1->SetValue(_T("44"));
     StaticText2 = new wxStaticText(this, ID_STATICTEXT3, _("Time Saved"), wxPoint(1176,160), wxDefaultSize, 0, _T("ID_STATICTEXT3"));
-    StaticText3 = new wxStaticText(this, ID_STATICTEXT4, _("Speed information"), wxPoint(1000,160), wxDefaultSize, 0, _T("ID_STATICTEXT4"));
+    SpeedText = new wxStaticText(this, ID_STATICTEXT4, _("Speed information"), wxPoint(1000,160), wxDefaultSize, 0, _T("ID_STATICTEXT4"));
     SpinCtrlDouble3 = new wxSpinCtrlDouble(this, ID_SPINCTRLDOUBLE5, _T("0.6"), wxPoint(1128,360), wxSize(128,34), 0, 0, 1, 0.6, 0.1, _T("ID_SPINCTRLDOUBLE5"));
     SpinCtrlDouble3->SetValue(_T("0.6"));
     CheckBoxCircularity = new wxCheckBox(this, ID_CHECKBOX1, _("Circularity"), wxPoint(1000,368), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX1"));
@@ -198,20 +200,28 @@ PetriDishCounterFrame::PetriDishCounterFrame(wxWindow* parent,wxWindowID id)
 
 
     wxSize imageSize = wxSize(950,600);
-    visualizationImage = new wxImage(imageSize);
+    visualizationImage = new wxImage(imageSize,true);
     visualizationBitmap = new wxBitmap(*visualizationImage);
 }
 
 void PetriDishCounterFrame::triggerProcessing()
 {
+   wxTimeSpan startOfOperation;
    int result = processLoadedImage(&settings);
+   wxTimeSpan endOfOperation;
+
+
 
    char numberShown[128];
    snprintf(numberShown,128,"%u",result);
    ResultText->SetLabel(wxString::FromUTF8(numberShown));
-   //
-   wxCommandEvent dummyEvent;
+
+   snprintf(numberShown,128,"%0.4f sec",settings.elapsedTimeInSeconds);
+   SpeedText->SetLabel(wxString::FromUTF8(numberShown));
+
+
    //Do the internal visualization by default
+   wxCommandEvent dummyEvent;
    OnSwitchVisualizationToRGBWithOverlay(dummyEvent);
 }
 

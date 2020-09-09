@@ -23,6 +23,8 @@ struct processingInformation
   unsigned char doFilteringByErosion;
 
   char viewIntermediate;
+
+  float elapsedTimeInSeconds;
 };
 
 int loadAnImage(const char * filename);

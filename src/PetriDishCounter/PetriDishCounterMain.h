@@ -113,9 +113,9 @@ class PetriDishCounterFrame: public wxFrame
         wxStaticBox* StaticBox3;
         wxStaticLine* StaticLine1;
         wxStaticText* ResultText;
+        wxStaticText* SpeedText;
         wxStaticText* StaticText1;
         wxStaticText* StaticText2;
-        wxStaticText* StaticText3;
         wxStatusBar* StatusBar1;
         //*)
 

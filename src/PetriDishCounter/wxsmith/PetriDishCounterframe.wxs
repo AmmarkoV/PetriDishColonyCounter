@@ -79,7 +79,7 @@
 			<label>Time Saved</label>
 			<pos>1176,160</pos>
 		</object>
-		<object class="wxStaticText" name="ID_STATICTEXT4" variable="StaticText3" member="yes">
+		<object class="wxStaticText" name="ID_STATICTEXT4" variable="SpeedText" member="yes">
 			<label>Speed information</label>
 			<pos>1000,160</pos>
 		</object>

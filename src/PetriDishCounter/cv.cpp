@@ -154,6 +154,7 @@ int loadAnImage(const char * filename)
 
 int processLoadedImage(struct processingInformation * settings)
 {
+    int64 t0 = cv::getTickCount();
     pretty = rgb.clone();
     intermediate = rgb.clone();
     boostContrast(intermediate,1.99,-210);
@@ -187,12 +188,12 @@ int processLoadedImage(struct processingInformation * settings)
     params.blobColor=255; //Light Blobs
 
     // Change thresholds
-    params.minThreshold = 5;
+    params.minThreshold = 3;
     params.maxThreshold = 45;
 
     // Filter by Area.
     params.filterByArea = true;
-    params.minArea = 5;
+    params.minArea = 3;
     params.maxArea = 44;
 
     // Filter by Circularity
@@ -292,5 +293,9 @@ int processLoadedImage(struct processingInformation * settings)
     cv::cvtColor(intermediate,intermediate,CV_BGR2RGB);
     cv::cvtColor(pretty,pretty,CV_BGR2RGB);
     //waitKey(0);
+
+
+    int64 t1 = cv::getTickCount();
+    settings->elapsedTimeInSeconds = (float) (t1-t0)/cv::getTickFrequency();
     return keypoints.size();
 }
