@@ -212,7 +212,7 @@ void PetriDishCounterFrame::triggerProcessing()
    //
    wxCommandEvent dummyEvent;
    //Do the internal visualization by default
-   OnSwitchVisualizationToInternal(dummyEvent);
+   OnSwitchVisualizationToRGBWithOverlay(dummyEvent);
 }
 
 

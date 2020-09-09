@@ -13,14 +13,12 @@ using namespace cv;
 cv::Mat rgb;
 cv::Mat intermediate;
 cv::Mat pretty;
-cv::Mat im_with_keypoints;
 
 
 int webcamLoop(int argc, char *argv[])
 {
     unsigned int width = 640;
     unsigned int height = 480;
-
 
     const char * webcam = 0;
     for (int i=0; i<argc; i++) {
@@ -130,9 +128,9 @@ unsigned char * accessPrettyPixels(unsigned int * width,unsigned int * height)
 
 unsigned char * accessInternalPixels(unsigned int * width,unsigned int * height)
 {
-  *width = im_with_keypoints.size().width;
-  *height = im_with_keypoints.size().height;
-  return im_with_keypoints.data;
+  *width = intermediate.size().width;
+  *height = intermediate.size().height;
+  return intermediate.data;
 }
 
 int loadAnImage(const char * filename)
@@ -147,6 +145,9 @@ int loadAnImage(const char * filename)
 
     //imshow("Input",rgb);
     //cv::moveWindow("Input",0,0);
+
+    cv::cvtColor(rgb,rgb,CV_BGR2RGB);
+
     return 1;
 }
 
@@ -258,35 +259,38 @@ int processLoadedImage(struct processingInformation * settings)
 
     // Draw detected blobs as red circles.
     // DrawMatchesFlags::DRAW_RICH_KEYPOINTS flag ensures the size of the circle corresponds to the size of blob
-    drawKeypoints(intermediate,keypoints,im_with_keypoints, Scalar(0,0,255), DrawMatchesFlags::DRAW_RICH_KEYPOINTS ); //DRAW_RICH_KEYPOINTS
-    drawKeypoints(pretty,keypoints,im_with_keypoints, Scalar(0,0,255), DrawMatchesFlags::DRAW_RICH_KEYPOINTS ); //DRAW_RICH_KEYPOINTS
+    drawKeypoints(intermediate,keypoints,intermediate, Scalar(0,0,255), DrawMatchesFlags::DRAW_RICH_KEYPOINTS ); //DRAW_RICH_KEYPOINTS
+    drawKeypoints(pretty,keypoints,pretty, Scalar(0,0,255), DrawMatchesFlags::DRAW_RICH_KEYPOINTS ); //DRAW_RICH_KEYPOINTS
 
     for( size_t i = 0; i < circles.size(); i++ )
     {
         Vec3i c = circles[i];
         Point center = Point(c[0], c[1]);
         // circle center
-        //circle( im_with_keypoints, center, 1, Scalar(0,100,100), 3, LINE_AA);
-        cv::drawMarker (im_with_keypoints,center,Scalar(0,0,255),MARKER_CROSS,20,1,8);
+        //circle( intermediate, center, 1, Scalar(0,100,100), 3, LINE_AA);
+        cv::drawMarker (intermediate,center,Scalar(0,0,255),MARKER_CROSS,20,1,8);
+        cv::drawMarker (pretty,center,Scalar(0,0,255),MARKER_CROSS,20,1,8);
         // circle outline
         int radius = c[2];
-        circle( im_with_keypoints, center, radius, Scalar(255,0,255), 3, LINE_AA);
+        cv::circle( intermediate, center, radius, Scalar(255,0,255), 3, LINE_AA);
+        cv::circle( pretty, center, radius, Scalar(255,0,255), 3, LINE_AA);
     }
 
 
     char str[512]= {0};
     snprintf(str,512,"Counted blobs %lu",keypoints.size());
     cv::Point jointPoint(10,50);
-    //cv::putText(im_with_keypoints, str, jointPoint, cv::FONT_HERSHEY_DUPLEX, 1.5, Scalar(0,0,255) , 0.5, 8 );
+    //cv::putText(intermediate, str, jointPoint, cv::FONT_HERSHEY_DUPLEX, 1.5, Scalar(0,0,255) , 0.5, 8 );
 
 
     if (settings->viewIntermediate)
     {
-     imshow("Output",im_with_keypoints);
+     imshow("Output",intermediate);
      cv::moveWindow("Output",1000,0);
     }
 
-    cv::cvtColor(im_with_keypoints,im_with_keypoints,CV_BGR2RGB);
+    cv::cvtColor(intermediate,intermediate,CV_BGR2RGB);
+    cv::cvtColor(pretty,pretty,CV_BGR2RGB);
     //waitKey(0);
     return keypoints.size();
 }
