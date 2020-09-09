@@ -42,6 +42,8 @@ class PetriDishCounterFrame: public wxFrame
         //(*Handlers(PetriDishCounterFrame)
         void OnQuit(wxCommandEvent& event);
         void OnAbout(wxCommandEvent& event);
+        void OnButtonIncrementClick(wxCommandEvent& event);
+        void OnButtonSubtractClick(wxCommandEvent& event);
         //*)
 
         //(*Identifiers(PetriDishCounterFrame)
@@ -118,6 +120,10 @@ class PetriDishCounterFrame: public wxFrame
         wxStaticText* StaticText2;
         wxStatusBar* StatusBar1;
         //*)
+
+        //This is our output!
+        unsigned int colonyCounter;
+        signed int userChangeToColonyCounter;
 
         unsigned int mousePositionX;
         unsigned int mousePositionY;

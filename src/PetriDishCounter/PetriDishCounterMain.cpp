@@ -185,6 +185,8 @@ PetriDishCounterFrame::PetriDishCounterFrame(wxWindow* parent,wxWindowID id)
     StatusBar1->SetStatusStyles(1,__wxStatusBarStyles_1);
     SetStatusBar(StatusBar1);
 
+    Connect(ID_BUTTON4,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&PetriDishCounterFrame::OnButtonIncrementClick);
+    Connect(ID_BUTTON5,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&PetriDishCounterFrame::OnButtonSubtractClick);
     Connect(idMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&PetriDishCounterFrame::OnQuit);
     Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&PetriDishCounterFrame::OnAbout);
     //*)
@@ -206,14 +208,11 @@ PetriDishCounterFrame::PetriDishCounterFrame(wxWindow* parent,wxWindowID id)
 
 void PetriDishCounterFrame::triggerProcessing()
 {
-   wxTimeSpan startOfOperation;
-   int result = processLoadedImage(&settings);
-   wxTimeSpan endOfOperation;
-
-
+   colonyCounter = processLoadedImage(&settings);
+   userChangeToColonyCounter=0; //We assume the detection is perfect
 
    char numberShown[128];
-   snprintf(numberShown,128,"%u",result);
+   snprintf(numberShown,128,"%u",colonyCounter);
    ResultText->SetLabel(wxString::FromUTF8(numberShown));
 
    snprintf(numberShown,128,"%0.4f sec",settings.elapsedTimeInSeconds);
@@ -388,4 +387,23 @@ void PetriDishCounterFrame::OnAbout(wxCommandEvent& event)
 {
     wxString msg = wxbuildinfo(long_f);
     wxMessageBox(msg, _("Welcome to..."));
+}
+
+void PetriDishCounterFrame::OnButtonIncrementClick(wxCommandEvent& event)
+{
+   ++userChangeToColonyCounter;
+   char numberShown[128];
+   snprintf(numberShown,128,"%u",colonyCounter+userChangeToColonyCounter);
+   ResultText->SetLabel(wxString::FromUTF8(numberShown));
+}
+
+void PetriDishCounterFrame::OnButtonSubtractClick(wxCommandEvent& event)
+{
+   if (colonyCounter+userChangeToColonyCounter>0)
+   {
+    --userChangeToColonyCounter;
+    char numberShown[128];
+    snprintf(numberShown,128,"%u",colonyCounter+userChangeToColonyCounter);
+    ResultText->SetLabel(wxString::FromUTF8(numberShown));
+   }
 }

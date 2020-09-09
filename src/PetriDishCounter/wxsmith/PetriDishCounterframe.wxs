@@ -141,11 +141,13 @@
 			<label>+</label>
 			<pos>1216,40</pos>
 			<size>40,34</size>
+			<handler function="OnButtonIncrementClick" entry="EVT_BUTTON" />
 		</object>
 		<object class="wxButton" name="ID_BUTTON5" variable="ButtonSubtract" member="yes">
 			<label>-</label>
 			<pos>1216,104</pos>
 			<size>40,34</size>
+			<handler function="OnButtonSubtractClick" entry="EVT_BUTTON" />
 		</object>
 		<object class="wxMenuBar" variable="MenuBar1" member="no">
 			<object class="wxMenu" variable="Menu1" member="no">
