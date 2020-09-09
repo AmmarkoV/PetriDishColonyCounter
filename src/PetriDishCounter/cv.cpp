@@ -188,12 +188,12 @@ int processLoadedImage(struct processingInformation * settings)
     params.blobColor=255; //Light Blobs
 
     // Change thresholds
-    params.minThreshold = 3;
+    params.minThreshold = 5;
     params.maxThreshold = 45;
 
     // Filter by Area.
     params.filterByArea = true;
-    params.minArea = 3;
+    params.minArea = 2;
     params.maxArea = 44;
 
     // Filter by Circularity

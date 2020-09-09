@@ -75,9 +75,9 @@
 			<pos>1128,312</pos>
 			<size>130,34</size>
 		</object>
-		<object class="wxStaticText" name="ID_STATICTEXT3" variable="StaticText2" member="yes">
-			<label>Time Saved</label>
-			<pos>1176,160</pos>
+		<object class="wxStaticText" name="ID_STATICTEXT3" variable="CorrectionsText" member="yes">
+			<label>Corrections</label>
+			<pos>1165,160</pos>
 		</object>
 		<object class="wxStaticText" name="ID_STATICTEXT4" variable="SpeedText" member="yes">
 			<label>Speed information</label>

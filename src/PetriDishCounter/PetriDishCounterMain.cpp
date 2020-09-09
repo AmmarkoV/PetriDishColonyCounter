@@ -131,7 +131,7 @@ PetriDishCounterFrame::PetriDishCounterFrame(wxWindow* parent,wxWindowID id)
     MaxThreshold->SetValue(_T("45"));
     SpinCtrlDouble1 = new wxSpinCtrlDouble(this, ID_SPINCTRLDOUBLE4, _T("44"), wxPoint(1128,312), wxSize(130,34), 0, 0, 100, 5, 44, _T("ID_SPINCTRLDOUBLE4"));
     SpinCtrlDouble1->SetValue(_T("44"));
-    StaticText2 = new wxStaticText(this, ID_STATICTEXT3, _("Time Saved"), wxPoint(1176,160), wxDefaultSize, 0, _T("ID_STATICTEXT3"));
+    CorrectionsText = new wxStaticText(this, ID_STATICTEXT3, _("Corrections"), wxPoint(1165,160), wxDefaultSize, 0, _T("ID_STATICTEXT3"));
     SpeedText = new wxStaticText(this, ID_STATICTEXT4, _("Speed information"), wxPoint(1000,160), wxDefaultSize, 0, _T("ID_STATICTEXT4"));
     SpinCtrlDouble3 = new wxSpinCtrlDouble(this, ID_SPINCTRLDOUBLE5, _T("0.6"), wxPoint(1128,360), wxSize(128,34), 0, 0, 1, 0.6, 0.1, _T("ID_SPINCTRLDOUBLE5"));
     SpinCtrlDouble3->SetValue(_T("0.6"));
@@ -205,9 +205,9 @@ PetriDishCounterFrame::PetriDishCounterFrame(wxWindow* parent,wxWindowID id)
     visualizationImage = new wxImage(imageSize,true);
 
     unsigned char * d = visualizationImage->GetData();
-    for (unsigned int y=0; y<imageSize.GetY(); y++)
+    for (int y=0; y<imageSize.GetY(); y++)
     {
-     for (unsigned int x=0; x<imageSize.GetX(); x++)
+     for (int x=0; x<imageSize.GetX(); x++)
      {
        float progress = 255.0 * (float) y/imageSize.GetY();
 
@@ -235,6 +235,8 @@ void PetriDishCounterFrame::triggerProcessing()
    snprintf(numberShown,128,"%0.4f sec",settings.elapsedTimeInSeconds);
    SpeedText->SetLabel(wxString::FromUTF8(numberShown));
 
+   snprintf(numberShown,128," ");
+   CorrectionsText->SetLabel(wxString::FromUTF8(numberShown));
 
    //Do the internal visualization by default
    wxCommandEvent dummyEvent;
@@ -412,6 +414,8 @@ void PetriDishCounterFrame::OnButtonIncrementClick(wxCommandEvent& event)
    char numberShown[128];
    snprintf(numberShown,128,"%u",colonyCounter+userChangeToColonyCounter);
    ResultText->SetLabel(wxString::FromUTF8(numberShown));
+   snprintf(numberShown,128,"%d correction",userChangeToColonyCounter);
+   CorrectionsText->SetLabel(wxString::FromUTF8(numberShown));
 }
 
 void PetriDishCounterFrame::OnButtonSubtractClick(wxCommandEvent& event)
@@ -422,5 +426,7 @@ void PetriDishCounterFrame::OnButtonSubtractClick(wxCommandEvent& event)
     char numberShown[128];
     snprintf(numberShown,128,"%u",colonyCounter+userChangeToColonyCounter);
     ResultText->SetLabel(wxString::FromUTF8(numberShown));
+    snprintf(numberShown,128,"%d correction",userChangeToColonyCounter);
+    CorrectionsText->SetLabel(wxString::FromUTF8(numberShown));
    }
 }
