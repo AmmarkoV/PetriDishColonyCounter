@@ -16,10 +16,10 @@ cv::Mat rgb;
 cv::Mat intermediate;
 cv::Mat pretty;
 
+struct AmmClient_Instance instance={0};
 
 int loadANetworkImage(const char * URI)
 {
-    struct AmmClient_Instance instance={0};
     /*
     AmmClient_RecvFile(
                        &instance,
