@@ -8,7 +8,7 @@ add_executable(petriDishCounter
                PetriDishCounterApp.cpp
                cv.cpp
               ) 
-target_link_libraries(petriDishCounter ${wxWidgets_LIBRARIES}  ${OpenCV_LIBRARIES})
+target_link_libraries(petriDishCounter ${wxWidgets_LIBRARIES}  ${OpenCV_LIBRARIES} AmmClient)
 
 set_target_properties(petriDishCounter PROPERTIES 
                        ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}"

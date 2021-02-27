@@ -33,10 +33,15 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option="`wx-config --cflags`" />
+			<Add directory="/usr/include/opencv" />
+			<Add directory="/usr/include/opencv2" />
 		</Compiler>
 		<Linker>
 			<Add option="`wx-config --libs`" />
 			<Add option="`pkg-config --libs opencv`" />
+			<Add library="../AmmClient/libAmmClient.a" />
+			<Add directory="/usr/include/opencv" />
+			<Add directory="/usr/include/opencv2" />
 		</Linker>
 		<Unit filename="PetriDishCounterApp.cpp" />
 		<Unit filename="PetriDishCounterApp.h" />

@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <vector>
 #include "cv.h"
+#include "opencv2/highgui/highgui.hpp"
 
 using namespace std;
 using namespace cv;
@@ -35,7 +36,7 @@ int webcamLoop(int argc, char *argv[])
     }
 
 
-    VideoCapture cap(webcam); // open the default camera
+    cv::VideoCapture cap(webcam); // open the default camera
     if (webcam==0) {
         std::cerr<<"Trying to open webcam\n";
         cap.set(CAP_PROP_FRAME_WIDTH,width);

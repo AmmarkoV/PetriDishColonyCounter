@@ -48,3 +48,5 @@ add_subdirectory (src/PetriDishCounter)
 ENDIF(wxWidgets_FOUND)
 ENDIF(OpenCV_FOUND)
  
+add_subdirectory (src/AmmClient) 
+
