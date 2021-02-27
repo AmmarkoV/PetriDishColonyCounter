@@ -7,6 +7,7 @@
 #include <vector>
 #include "cv.h"
 #include "opencv2/highgui/highgui.hpp"
+#include "../AmmClient/AmmClient.h"
 
 using namespace std;
 using namespace cv;
@@ -14,6 +15,40 @@ using namespace cv;
 cv::Mat rgb;
 cv::Mat intermediate;
 cv::Mat pretty;
+
+
+int loadANetworkImage(const char * URI)
+{
+    struct AmmClient_Instance instance={0};
+    /*
+    AmmClient_RecvFile(
+                       &instance,
+                       const char * URI ,
+                       char * filecontent ,
+                       unsigned int* filecontentSize,
+                       int keepAlive,
+                       int reallyFastImplementation
+                      );
+*/
+    
+    rgb = imread(URI,cv::IMREAD_COLOR);
+
+    if(rgb.empty()){
+        printf(" Error opening image\n");
+        printf(" Program Arguments: [image_name] \n");
+        return 0;
+    }
+
+    //imshow("Input",rgb);
+    //cv::moveWindow("Input",0,0);
+
+
+    blur(rgb,rgb,Size(2,2));
+    cv::cvtColor(rgb,rgb,CV_BGR2RGB);
+
+    return 1;
+}
+
 
 
 int webcamLoop(int argc, char *argv[])
@@ -153,6 +188,7 @@ int loadAnImage(const char * filename)
 
     return 1;
 }
+
 
 
 int processLoadedImage(struct processingInformation * settings)
