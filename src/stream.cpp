@@ -121,23 +121,23 @@ void eliminateDark(cv::Mat &rgb,int threshold)
 #include "AmmClient/AmmClient.h"
 #include <unistd.h>
 
-//const char JPEGStart[2]={ (char) 255,(char) 216 };  // '\xff\xd8'
+// '\xff\xd8'
 const char JPEG_START_BYTE_A=255;
 const char JPEG_START_BYTE_B=216;
 
-//const char JPEGEOF[2]  ={ (char) 255,(char) 217 };  // '\xff\xd9'
+// '\xff\xd9'
 const char JPEG_EOF_BYTE_A=255;
 const char JPEG_EOF_BYTE_B=217;
 
 
+#define STREAMING_BUFFER_SIZE 262144
 struct streamingBuffer
 {
-   char globalBuffer[262144];
+   char scanForJPEG;
+   char * lastJPEGImageStart;
+
    unsigned int bufferSize;
-
-   char * lastJPEGImage;
-
-
+   char globalBuffer[STREAMING_BUFFER_SIZE];
 };
 
 
@@ -147,7 +147,7 @@ char * foundJPEGStart(char * buffer,unsigned int bufferSize)
   char * ptr    = buffer;
   char * ptrEnd = buffer + bufferSize;
 
-  while (ptr<ptrEnd-1)
+  while (ptr<=ptrEnd-1)
   {
     switch (*ptr)
     {
@@ -172,7 +172,7 @@ char * foundJPEGEnd(char * buffer,unsigned int bufferSize)
   char * ptr    = buffer;
   char * ptrEnd = buffer + bufferSize;
 
-  while (ptr<ptrEnd-1)
+  while (ptr<=ptrEnd-1)
   {
     switch (*ptr)
     {
@@ -191,49 +191,107 @@ char * foundJPEGEnd(char * buffer,unsigned int bufferSize)
   return 0;
 }
 
+
+int flushJPEGFileToDisk(const char * filename, char * buffer, unsigned int bufferSize)
+{
+  FILE * fp = fopen(filename,"wb");
+
+  if (fp!=0)
+  {
+      fwrite(buffer,1,bufferSize,fp);
+      fclose(fp);
+      return 1;
+  }
+ return 0;
+}
+
 int stream(int argc, char *argv[])
 {
- fprintf(stderr,"AmmClient Tester started \n");
- struct AmmClient_Instance * inst = AmmClient_Initialize("192.168.1.33",80,100);
+ const char IP[]={"192.168.1.33"};
+ const int port = 80;
+ const int timeoutInSeconds = 100;
+
+ fprintf(stderr,"AmmClient JPEG Multipart streaming connecting to %s:%u \n",IP,port);
+ struct AmmClient_Instance * inst = AmmClient_Initialize(IP,port,timeoutInSeconds);
  fprintf(stderr,"Initialized..\n");
+
+ unsigned int receivedFiles=0;
 
  if (inst)
  {
-  const unsigned int BUFFER_SIZE = 65536;
-
-  char buf[BUFFER_SIZE+1]={0};
+  const unsigned int SEND_BUFFER_SIZE = 1024;
+  char buf[SEND_BUFFER_SIZE+1]={0};
   unsigned int recvdSize=0;
+
+  struct streamingBuffer sBuf={0};
 
   unsigned long startTime,endTime;
 
+  char sentRequest=0;
   unsigned int i=0;
   while (1)
   {
    startTime = AmmClient_GetTickCountMicroseconds();
 
-   snprintf(buf,BUFFER_SIZE,"GET / HTTP/1.1\nConnection: keep-alive\n\n");
+   snprintf(buf,SEND_BUFFER_SIZE,"GET / HTTP/1.1\nConnection: keep-alive\n\n");
 
-   fprintf(stderr,"Send #%u..\n",i);
-   if (AmmClient_Send(inst,buf,strlen(buf),1))
+   if (!sentRequest)
    {
-    usleep(1000);
-    fprintf(stderr,"Recv #%u..\n",i);
+      fprintf(stderr,"Send #%u..\n",i);
+      if (AmmClient_Send(inst,buf,strlen(buf),1))
+      {
+        sentRequest=1;
+      }
+   }
 
-    recvdSize=BUFFER_SIZE;
-    if (!AmmClient_Recv(inst,buf,&recvdSize) )
+   if (sentRequest)
+   {
+    usleep(10000);
+    fprintf(stderr,"Recv #%u - %u bytes..\n",i,sBuf.bufferSize);
+
+    char * startOfCurrentChunk = sBuf.globalBuffer+sBuf.bufferSize;
+    recvdSize=STREAMING_BUFFER_SIZE-sBuf.bufferSize;
+    if (!AmmClient_Recv(inst,startOfCurrentChunk,&recvdSize) )
       {
        fprintf(stderr,"Failed to recv.. \n");
       } else
       {
-        if (foundJPEGStart(buf,recvdSize))
+        //Go further down our buffer..
+        sBuf.bufferSize += recvdSize;
+        //----------------------------
+
+        if (!sBuf.scanForJPEG)
         {
-          fprintf(stderr,GREEN "Found Start..\n" NORMAL);
+          sBuf.lastJPEGImageStart = foundJPEGStart(startOfCurrentChunk,recvdSize);
+          if (sBuf.lastJPEGImageStart)
+           {
+            fprintf(stderr,GREEN "Found Start..\n" NORMAL);
+            sBuf.scanForJPEG = 1;
+           }
+        } else
+        {
+          char * jpegEnd = foundJPEGEnd(startOfCurrentChunk,recvdSize);
+          if (jpegEnd)
+           {
+            jpegEnd+=2;
+            fprintf(stderr,GREEN "Found End..\n" NORMAL);
+            fprintf(stderr,GREEN "JPEG File started @ %p , sized %lu bytes\n" NORMAL,sBuf.lastJPEGImageStart,jpegEnd-sBuf.lastJPEGImageStart);
+
+            char filename[512];
+            snprintf(filename,512,"image_%u.jpeg",receivedFiles);
+            flushJPEGFileToDisk(filename,sBuf.lastJPEGImageStart,jpegEnd-sBuf.lastJPEGImageStart);
+            ++receivedFiles;
+
+            sBuf.scanForJPEG = 0;
+            sentRequest=0; //Send again..
+
+            unsigned long remainingSize = (startOfCurrentChunk+recvdSize)-jpegEnd;
+            fprintf(stderr,"There are still %lu bytes that we need to copy to the start of the buffer..\n",remainingSize);
+            memcpy(sBuf.globalBuffer,jpegEnd+1,remainingSize-1);
+            sBuf.bufferSize = remainingSize;
+           }
         }
 
-        if (foundJPEGEnd(buf,recvdSize))
-        {
-          fprintf(stderr,GREEN "Found End..\n" NORMAL);
-        }
       }
 
 
@@ -244,7 +302,7 @@ int stream(int argc, char *argv[])
    {
      fprintf(stderr,"Failed to Send.. \n");
    }
-   usleep(1000);
+   usleep(100);
 
    ++i;
 
