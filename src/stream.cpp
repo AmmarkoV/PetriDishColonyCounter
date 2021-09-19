@@ -278,7 +278,7 @@ int stream(int argc, char *argv[])
             fprintf(stderr,GREEN "JPEG File started @ %p , sized %lu bytes\n" NORMAL,sBuf.lastJPEGImageStart,jpegEnd-sBuf.lastJPEGImageStart);
 
             char filename[512];
-            snprintf(filename,512,"image_%u.jpeg",receivedFiles);
+            snprintf(filename,512,"image_%u.jpg",receivedFiles);
             flushJPEGFileToDisk(filename,sBuf.lastJPEGImageStart,jpegEnd-sBuf.lastJPEGImageStart);
             ++receivedFiles;
 

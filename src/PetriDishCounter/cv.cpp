@@ -30,7 +30,7 @@ int loadANetworkImage(const char * URI)
                        int reallyFastImplementation
                       );
 */
-    
+
     rgb = imread(URI,cv::IMREAD_COLOR);
 
     if(rgb.empty()){
@@ -181,7 +181,9 @@ int loadAnImage(const char * filename)
 
     //imshow("Input",rgb);
     //cv::moveWindow("Input",0,0);
-
+    int up_width = 890;
+    int up_height = 660;
+    cv::resize(rgb,rgb, Size(up_width, up_height), INTER_LINEAR);
 
     blur(rgb,rgb,Size(2,2));
     cv::cvtColor(rgb,rgb,CV_BGR2RGB);
