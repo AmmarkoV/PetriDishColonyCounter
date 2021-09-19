@@ -17,3 +17,25 @@ set_target_properties(petriDishCounterCV PROPERTIES
                        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}"
                       )
 
+
+
+   
+set(AmmClient_INGREDIENTS 
+                AmmClient/tools.c
+                AmmClient/network.c
+                AmmClient/protocol.c
+                AmmClient/AmmClient.c
+              )
+
+
+add_executable(petriDishCounterStream stream.cpp ${AmmClient_INGREDIENTS})   
+target_link_libraries(petriDishCounterStream rt dl m ${OpenCV_LIBRARIES}    )
+set_target_properties(petriDishCounterStream PROPERTIES DEBUG_POSTFIX "D") 
+       
+
+set_target_properties(petriDishCounterStream PROPERTIES 
+                       ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}"
+                       LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}"
+                       RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}"
+                      )
+
