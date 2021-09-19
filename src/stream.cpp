@@ -9,6 +9,15 @@
 using namespace std;
 using namespace cv;
 
+#define NORMAL   "\033[0m"
+#define BLACK   "\033[30m"      /* Black */
+#define RED     "\033[31m"      /* Red */
+#define GREEN   "\033[32m"      /* Green */
+#define YELLOW  "\033[33m"      /* Yellow */
+#define BLUE    "\033[34m"      /* Blue */
+#define MAGENTA "\033[35m"      /* Magenta */
+#define CYAN    "\033[36m"      /* Cyan */
+#define WHITE   "\033[37m"      /* White */
 
 int webcamLoop(int argc, char *argv[])
 {
@@ -108,41 +117,111 @@ void eliminateDark(cv::Mat &rgb,int threshold)
 }
 
 
- 
+
 #include "AmmClient/AmmClient.h"
 #include <unistd.h>
 
+//const char JPEGStart[2]={ (char) 255,(char) 216 };  // '\xff\xd8'
+const char JPEGSTART_BYTE_A=255;
+const char JPEGSTART_BYTE_B=216;
+
+//const char JPEGEOF[2]  ={ (char) 255,(char) 217 };  // '\xff\xd9'
+const char JPEGEOF_BYTE_A=255;
+const char JPEGEOF_BYTE_B=217;
+
+char * foundJPEGStart(char * buffer,unsigned int bufferSize)
+{
+  fprintf(stderr,"foundJPEGStart %u..\n",bufferSize);
+  char * ptr    = buffer;
+  char * ptrEnd = buffer + bufferSize;
+
+  while (ptr<ptrEnd-1)
+  {
+    switch (*ptr)
+    {
+       case JPEGSTART_BYTE_A:
+             switch (*(ptr+1))
+              {
+               case JPEGSTART_BYTE_B:
+                  return ptr;
+               break;
+              };
+       break;
+    };
+    ptr++;
+  }
+
+  return 0;
+}
+
+char * foundJPEGEnd(char * buffer,unsigned int bufferSize)
+{
+  fprintf(stderr,"foundJPEGEnd %u..\n",bufferSize);
+  char * ptr    = buffer;
+  char * ptrEnd = buffer + bufferSize;
+
+  while (ptr<ptrEnd-1)
+  {
+    switch (*ptr)
+    {
+       case (char) JPEGEOF_BYTE_A:
+             switch (*(ptr+1))
+              {
+               case (char) JPEGEOF_BYTE_B:
+                  return ptr;
+               break;
+              };
+       break;
+    };
+    ptr++;
+  }
+
+  return 0;
+}
 
 int stream(int argc, char *argv[])
 {
  fprintf(stderr,"AmmClient Tester started \n");
- struct AmmClient_Instance * inst = AmmClient_Initialize("192.168.1.48",8080,1000);
+ struct AmmClient_Instance * inst = AmmClient_Initialize("192.168.1.33",80,100);
  fprintf(stderr,"Initialized..\n");
 
  if (inst)
  {
-  char buf[1024]={0};
+  const unsigned int BUFFER_SIZE = 65536;
+
+  char buf[BUFFER_SIZE+1]={0};
   unsigned int recvdSize=0;
 
   unsigned long startTime,endTime;
 
   unsigned int i=0;
-   while (1)
+  while (1)
   {
    startTime = AmmClient_GetTickCountMicroseconds();
 
-   snprintf(buf,1024,"GET /index.html?test=%u HTTP/1.1\nConnection: keep-alive\n\n",i);
+   snprintf(buf,BUFFER_SIZE,"GET / HTTP/1.1\nConnection: keep-alive\n\n");
 
    fprintf(stderr,"Send #%u..\n",i);
    if (AmmClient_Send(inst,buf,strlen(buf),1))
    {
     usleep(100);
     fprintf(stderr,"Recv #%u..\n",i);
-    recvdSize=1024;
 
+    recvdSize=BUFFER_SIZE;
     if (!AmmClient_Recv(inst,buf,&recvdSize) )
       {
        fprintf(stderr,"Failed to recv.. \n");
+      } else
+      {
+        if (foundJPEGStart(buf,recvdSize))
+        {
+          fprintf(stderr,GREEN "Found Start..\n" NORMAL);
+        }
+
+        if (foundJPEGEnd(buf,recvdSize))
+        {
+          fprintf(stderr,GREEN "Found End..\n" NORMAL);
+        }
       }
 
 
@@ -172,11 +251,8 @@ int stream(int argc, char *argv[])
 
 int main(int argc, char *argv[])
 {
-    if (strcmp(argv[1],"stream")==0)
-    {
        stream(argc,argv);
        return 0;
-    }
 
     cv::Mat rgb = imread(argv[1],cv::IMREAD_COLOR);
 

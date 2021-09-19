@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 
  if (inst)
  {
-  char buf[1024]={0};
+  char buf[10000]={0};
   unsigned int recvdSize=0;
 
   unsigned long startTime,endTime;
@@ -30,8 +30,8 @@ int main(int argc, char *argv[])
    {
     usleep(100);
     fprintf(stderr,"Recv #%u..\n",i);
-    recvdSize=1024;
-
+    
+    recvdSize=10000;
     if (!AmmClient_Recv(inst,buf,&recvdSize) )
       {
        fprintf(stderr,"Failed to recv.. \n");
