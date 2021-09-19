@@ -122,12 +122,24 @@ void eliminateDark(cv::Mat &rgb,int threshold)
 #include <unistd.h>
 
 //const char JPEGStart[2]={ (char) 255,(char) 216 };  // '\xff\xd8'
-const char JPEGSTART_BYTE_A=255;
-const char JPEGSTART_BYTE_B=216;
+const char JPEG_START_BYTE_A=255;
+const char JPEG_START_BYTE_B=216;
 
 //const char JPEGEOF[2]  ={ (char) 255,(char) 217 };  // '\xff\xd9'
-const char JPEGEOF_BYTE_A=255;
-const char JPEGEOF_BYTE_B=217;
+const char JPEG_EOF_BYTE_A=255;
+const char JPEG_EOF_BYTE_B=217;
+
+
+struct streamingBuffer
+{
+   char globalBuffer[262144];
+   unsigned int bufferSize;
+
+   char * lastJPEGImage;
+
+
+};
+
 
 char * foundJPEGStart(char * buffer,unsigned int bufferSize)
 {
@@ -139,10 +151,10 @@ char * foundJPEGStart(char * buffer,unsigned int bufferSize)
   {
     switch (*ptr)
     {
-       case JPEGSTART_BYTE_A:
+       case JPEG_START_BYTE_A:
              switch (*(ptr+1))
               {
-               case JPEGSTART_BYTE_B:
+               case JPEG_START_BYTE_B:
                   return ptr;
                break;
               };
@@ -164,10 +176,10 @@ char * foundJPEGEnd(char * buffer,unsigned int bufferSize)
   {
     switch (*ptr)
     {
-       case (char) JPEGEOF_BYTE_A:
+       case (char) JPEG_EOF_BYTE_A:
              switch (*(ptr+1))
               {
-               case (char) JPEGEOF_BYTE_B:
+               case (char) JPEG_EOF_BYTE_B:
                   return ptr;
                break;
               };
@@ -204,7 +216,7 @@ int stream(int argc, char *argv[])
    fprintf(stderr,"Send #%u..\n",i);
    if (AmmClient_Send(inst,buf,strlen(buf),1))
    {
-    usleep(100);
+    usleep(1000);
     fprintf(stderr,"Recv #%u..\n",i);
 
     recvdSize=BUFFER_SIZE;
