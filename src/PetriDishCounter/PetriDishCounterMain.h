@@ -51,6 +51,12 @@ class PetriDishCounterFrame: public wxFrame
         void OnCircularityChange(wxSpinDoubleEvent& event);
         void OnCheckBoxFilterByAreaClick(wxCommandEvent& event);
         void OnCheckBoxCircularityClick(wxCommandEvent& event);
+        void OnInertiaChange(wxSpinDoubleEvent& event);
+        void OnCheckBoxInertiaClick(wxCommandEvent& event);
+        void OnConvexityChange(wxSpinDoubleEvent& event);
+        void OnCheckBoxConvexityClick(wxCommandEvent& event);
+        void OnCheckBoxErodeClick(wxCommandEvent& event);
+        void OnCheckBoxDilateClick(wxCommandEvent& event);
         //*)
 
         //(*Identifiers(PetriDishCounterFrame)

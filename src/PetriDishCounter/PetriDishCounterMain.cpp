@@ -191,7 +191,13 @@ PetriDishCounterFrame::PetriDishCounterFrame(wxWindow* parent,wxWindowID id)
     Connect(ID_SPINCTRLDOUBLE4,wxEVT_SPINCTRLDOUBLE,(wxObjectEventFunction)&PetriDishCounterFrame::OnMaxAreaChange);
     Connect(ID_SPINCTRLDOUBLE5,wxEVT_SPINCTRLDOUBLE,(wxObjectEventFunction)&PetriDishCounterFrame::OnCircularityChange);
     Connect(ID_CHECKBOX1,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&PetriDishCounterFrame::OnCheckBoxCircularityClick);
+    Connect(ID_SPINCTRLDOUBLE6,wxEVT_SPINCTRLDOUBLE,(wxObjectEventFunction)&PetriDishCounterFrame::OnInertiaChange);
+    Connect(ID_CHECKBOX2,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&PetriDishCounterFrame::OnCheckBoxInertiaClick);
     Connect(ID_CHECKBOX3,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&PetriDishCounterFrame::OnCheckBoxFilterByAreaClick);
+    Connect(ID_CHECKBOX4,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&PetriDishCounterFrame::OnCheckBoxConvexityClick);
+    Connect(ID_SPINCTRLDOUBLE7,wxEVT_SPINCTRLDOUBLE,(wxObjectEventFunction)&PetriDishCounterFrame::OnConvexityChange);
+    Connect(ID_CHECKBOX5,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&PetriDishCounterFrame::OnCheckBoxDilateClick);
+    Connect(ID_CHECKBOX6,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&PetriDishCounterFrame::OnCheckBoxErodeClick);
     Connect(ID_BUTTON4,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&PetriDishCounterFrame::OnButtonIncrementClick);
     Connect(ID_BUTTON5,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&PetriDishCounterFrame::OnButtonSubtractClick);
     Connect(idMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&PetriDishCounterFrame::OnQuit);
@@ -478,5 +484,41 @@ void PetriDishCounterFrame::OnCircularityChange(wxSpinDoubleEvent& event)
 void PetriDishCounterFrame::OnCheckBoxCircularityClick(wxCommandEvent& event)
 {
     settings.doFilteringByCircularity = (CheckBoxFilterByArea->GetValue()==true);
+    triggerProcessing();
+}
+
+void PetriDishCounterFrame::OnInertiaChange(wxSpinDoubleEvent& event)
+{
+    settings.inertia = Inertia->GetValue();
+    triggerProcessing();
+}
+
+void PetriDishCounterFrame::OnCheckBoxInertiaClick(wxCommandEvent& event)
+{
+    settings.doFilteringByInertia = (CheckBoxInertia->GetValue()==true);
+    triggerProcessing();
+}
+
+void PetriDishCounterFrame::OnConvexityChange(wxSpinDoubleEvent& event)
+{
+    settings.convexity = Convexity->GetValue();
+    triggerProcessing();
+}
+
+void PetriDishCounterFrame::OnCheckBoxConvexityClick(wxCommandEvent& event)
+{
+    settings.doFilteringByConvexity = (CheckBoxConvexity->GetValue()==true);
+    triggerProcessing();
+}
+
+void PetriDishCounterFrame::OnCheckBoxErodeClick(wxCommandEvent& event)
+{
+    settings.doFilteringByErosion = (CheckBoxErode->GetValue()==true);
+    triggerProcessing();
+}
+
+void PetriDishCounterFrame::OnCheckBoxDilateClick(wxCommandEvent& event)
+{
+    settings.doFilteringByDilation  = (CheckBoxDilate->GetValue()==true);
     triggerProcessing();
 }

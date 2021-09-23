@@ -62,7 +62,7 @@
 			<initial>5.000000</initial>
 			<pos>992,312</pos>
 			<size>130,34</size>
-			<handler function="OnSpinCtrlDouble2Change" entry="EVT_SPINCTRLDOUBLE" />
+			<handler function="OnMinAreaChange" entry="EVT_SPINCTRLDOUBLE" />
 		</object>
 		<object class="wxSpinCtrlDouble" name="ID_SPINCTRLDOUBLE3" variable="MaxThreshold" member="yes">
 			<value>45</value>
@@ -77,7 +77,7 @@
 			<increment>44.000000</increment>
 			<pos>1128,312</pos>
 			<size>130,34</size>
-			<handler function="OnSpinCtrlDouble1Change" entry="EVT_SPINCTRLDOUBLE" />
+			<handler function="OnMaxAreaChange" entry="EVT_SPINCTRLDOUBLE" />
 		</object>
 		<object class="wxStaticText" name="ID_STATICTEXT3" variable="CorrectionsText" member="yes">
 			<label>Corrections</label>
@@ -94,12 +94,13 @@
 			<increment>0.100000</increment>
 			<pos>1128,360</pos>
 			<size>128,34</size>
-			<handler function="OnSpinCtrlDouble3Change" entry="EVT_SPINCTRLDOUBLE" />
+			<handler function="OnCircularityChange" entry="EVT_SPINCTRLDOUBLE" />
 		</object>
 		<object class="wxCheckBox" name="ID_CHECKBOX1" variable="CheckBoxCircularity" member="yes">
 			<label>Circularity</label>
 			<checked>1</checked>
 			<pos>1000,368</pos>
+			<handler function="OnCheckBoxCircularityClick" entry="EVT_CHECKBOX" />
 		</object>
 		<object class="wxSpinCtrlDouble" name="ID_SPINCTRLDOUBLE6" variable="Inertia" member="yes">
 			<value>0.01</value>
@@ -107,21 +108,24 @@
 			<increment>0.010000</increment>
 			<pos>1128,408</pos>
 			<size>128,34</size>
-			<handler function="OnSpinCtrlDouble4Change" entry="EVT_SPINCTRLDOUBLE" />
+			<handler function="OnInertiaChange" entry="EVT_SPINCTRLDOUBLE" />
 		</object>
 		<object class="wxCheckBox" name="ID_CHECKBOX2" variable="CheckBoxInertia" member="yes">
 			<label>Inertia</label>
 			<checked>1</checked>
 			<pos>1000,414</pos>
+			<handler function="OnCheckBoxInertiaClick" entry="EVT_CHECKBOX" />
 		</object>
 		<object class="wxCheckBox" name="ID_CHECKBOX3" variable="CheckBoxFilterByArea" member="yes">
 			<label>Filter by Area</label>
 			<checked>1</checked>
 			<pos>1064,288</pos>
+			<handler function="OnCheckBoxFilterByAreaClick" entry="EVT_CHECKBOX" />
 		</object>
 		<object class="wxCheckBox" name="ID_CHECKBOX4" variable="CheckBoxConvexity" member="yes">
 			<label>Convexity</label>
 			<pos>1000,462</pos>
+			<handler function="OnCheckBoxConvexityClick" entry="EVT_CHECKBOX" />
 		</object>
 		<object class="wxSpinCtrlDouble" name="ID_SPINCTRLDOUBLE7" variable="Convexity" member="yes">
 			<value>0.87</value>
@@ -129,16 +133,18 @@
 			<increment>0.010000</increment>
 			<pos>1128,456</pos>
 			<size>128,34</size>
-			<handler function="OnSpinCtrlDouble5Change" entry="EVT_SPINCTRLDOUBLE" />
+			<handler function="OnConvexityChange" entry="EVT_SPINCTRLDOUBLE" />
 		</object>
 		<object class="wxCheckBox" name="ID_CHECKBOX5" variable="CheckBoxDilate" member="yes">
 			<label>Dilate</label>
 			<checked>1</checked>
 			<pos>1000,504</pos>
+			<handler function="OnCheckBoxDilateClick" entry="EVT_CHECKBOX" />
 		</object>
 		<object class="wxCheckBox" name="ID_CHECKBOX6" variable="CheckBoxErode" member="yes">
 			<label>Erode</label>
 			<pos>1128,504</pos>
+			<handler function="OnCheckBoxErodeClick" entry="EVT_CHECKBOX" />
 		</object>
 		<object class="wxStaticLine" name="ID_STATICLINE1" variable="StaticLine1" member="yes">
 			<pos>1000,552</pos>
