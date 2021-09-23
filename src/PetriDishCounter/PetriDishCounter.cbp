@@ -44,6 +44,22 @@
 			<Add directory="/usr/include/opencv" />
 			<Add directory="/usr/include/opencv2" />
 		</Linker>
+		<Unit filename="../AmmClient/AmmClient.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../AmmClient/AmmClient.h" />
+		<Unit filename="../AmmClient/network.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../AmmClient/network.h" />
+		<Unit filename="../AmmClient/protocol.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../AmmClient/protocol.h" />
+		<Unit filename="../AmmClient/tools.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../AmmClient/tools.h" />
 		<Unit filename="PetriDishCounterApp.cpp" />
 		<Unit filename="PetriDishCounterApp.h" />
 		<Unit filename="PetriDishCounterMain.cpp" />

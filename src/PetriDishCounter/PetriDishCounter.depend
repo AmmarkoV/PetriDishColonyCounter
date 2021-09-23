@@ -2544,3 +2544,50 @@
 	<wx/stattext.h>
 	<wx/textctrl.h>
 
+1593939699 source:/home/ammar/Documents/Programming/PetriDishColonyCounter/src/AmmClient/AmmClient.c
+	<stdio.h>
+	<stdlib.h>
+	<unistd.h>
+	"tools.h"
+	"network.h"
+	"protocol.h"
+	"AmmClient.h"
+
+1593939699 /home/ammar/Documents/Programming/PetriDishColonyCounter/src/AmmClient/tools.h
+
+1593939699 /home/ammar/Documents/Programming/PetriDishColonyCounter/src/AmmClient/network.h
+	"AmmClient.h"
+
+1593939699 /home/ammar/Documents/Programming/PetriDishColonyCounter/src/AmmClient/protocol.h
+	"AmmClient.h"
+
+1593939699 source:/home/ammar/Documents/Programming/PetriDishColonyCounter/src/AmmClient/network.c
+	<stdio.h>
+	<stdlib.h>
+	<unistd.h>
+	"network.h"
+	<sys/socket.h>
+	<netinet/in.h>
+	<arpa/inet.h>
+	<errno.h>
+	<string.h>
+
+1593939699 source:/home/ammar/Documents/Programming/PetriDishColonyCounter/src/AmmClient/protocol.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<unistd.h>
+	<sys/socket.h>
+	<netinet/in.h>
+	<arpa/inet.h>
+	<errno.h>
+	<string.h>
+	<poll.h>
+	"protocol.h"
+	"network.h"
+
+1593939699 source:/home/ammar/Documents/Programming/PetriDishColonyCounter/src/AmmClient/tools.c
+	"tools.h"
+	<sys/time.h>
+	<time.h>
+

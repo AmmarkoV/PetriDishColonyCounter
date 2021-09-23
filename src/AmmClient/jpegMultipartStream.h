@@ -1,12 +1,118 @@
+#ifndef JPEGMULTIPARTSTREAM_H
+#define JPEGMULTIPARTSTREAM_H
+
+
 /** @file stream.cpp
  *  @brief This is a simple test file to make sure your camera or video files can be opened using OpenCV
  *  @author Ammar Qammaz (AmmarkoV)
  */
-#include <stdio.h> 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-#include "AmmClient/jpegMultipartStream.h"
+#include "AmmClient.h"
+#include <unistd.h>
 
-int stream(int argc, char *argv[])
+
+using namespace std;
+
+#define NORMAL   "\033[0m"
+#define BLACK   "\033[30m"      /* Black */
+#define RED     "\033[31m"      /* Red */
+#define GREEN   "\033[32m"      /* Green */
+#define YELLOW  "\033[33m"      /* Yellow */
+#define BLUE    "\033[34m"      /* Blue */
+#define MAGENTA "\033[35m"      /* Magenta */
+#define CYAN    "\033[36m"      /* Cyan */
+#define WHITE   "\033[37m"      /* White */
+
+
+
+// '\xff\xd8'
+const char JPEG_START_BYTE_A=255;
+const char JPEG_START_BYTE_B=216;
+
+// '\xff\xd9'
+const char JPEG_EOF_BYTE_A=255;
+const char JPEG_EOF_BYTE_B=217;
+
+
+#define STREAMING_BUFFER_SIZE 524288
+struct streamingBuffer
+{
+   char scanForJPEG;
+   char * lastJPEGImageStart;
+
+   unsigned int bufferSize;
+   char globalBuffer[STREAMING_BUFFER_SIZE];
+};
+
+
+static char * foundJPEGStart(char * buffer,unsigned int bufferSize)
+{
+  fprintf(stderr,"foundJPEGStart %u..\n",bufferSize);
+  char * ptr    = buffer;
+  char * ptrEnd = buffer + bufferSize;
+
+  while (ptr<=ptrEnd-1)
+  {
+    switch (*ptr)
+    {
+       case JPEG_START_BYTE_A:
+             switch (*(ptr+1))
+              {
+               case JPEG_START_BYTE_B:
+                  return ptr;
+               break;
+              };
+       break;
+    };
+    ptr++;
+  }
+
+  return 0;
+}
+
+static char * foundJPEGEnd(char * buffer,unsigned int bufferSize)
+{
+  fprintf(stderr,"foundJPEGEnd %u..\n",bufferSize);
+  char * ptr    = buffer;
+  char * ptrEnd = buffer + bufferSize;
+
+  while (ptr<=ptrEnd-1)
+  {
+    switch (*ptr)
+    {
+       case (char) JPEG_EOF_BYTE_A:
+             switch (*(ptr+1))
+              {
+               case (char) JPEG_EOF_BYTE_B:
+                  return ptr;
+               break;
+              };
+       break;
+    };
+    ptr++;
+  }
+
+  return 0;
+}
+
+
+static int flushJPEGFileToDisk(const char * filename, char * buffer, unsigned int bufferSize)
+{
+  FILE * fp = fopen(filename,"wb");
+
+  if (fp!=0)
+  {
+      fwrite(buffer,1,bufferSize,fp);
+      fclose(fp);
+      return 1;
+  }
+ return 0;
+}
+
+static int streamJPEGToFile(int argc, char *argv[])
 {
  const char IP[]={"192.168.1.33"};
  const int port = 80;
@@ -116,12 +222,6 @@ int stream(int argc, char *argv[])
 }
 
 
+#endif
 
 
-
-
-int main(int argc, char *argv[])
-{
-       stream(argc,argv);
-       return 0;
-}

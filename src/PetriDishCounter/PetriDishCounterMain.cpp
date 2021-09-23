@@ -19,6 +19,7 @@
 #include <vector>
 
 #include "SelectNetworkDevice.h"
+#include "../AmmClient/jpegMultipartStream.h"
 
 //(*InternalHeaders(PetriDishCounterFrame)
 #include <wx/font.h>
