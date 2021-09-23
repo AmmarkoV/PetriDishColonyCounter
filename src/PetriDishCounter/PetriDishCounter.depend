@@ -1119,7 +1119,7 @@
 1585059103 /usr/include/wx-3.0/wx/gtk/statline.h
 	"wx/defs.h"
 
-1632423793 source:/home/ammar/Documents/Programming/PetriDishColonyCounter/src/PetriDishCounter/PetriDishCounterMain.cpp
+1632427125 source:/home/ammar/Documents/Programming/PetriDishColonyCounter/src/PetriDishCounter/PetriDishCounterMain.cpp
 	"PetriDishCounterMain.h"
 	<wx/msgdlg.h>
 	<wx/filename.h>
@@ -1130,6 +1130,7 @@
 	<wx/dir.h>
 	<wx/datetime.h>
 	<vector>
+	"SelectNetworkDevice.h"
 	<wx/font.h>
 	<wx/intl.h>
 	<wx/string.h>
@@ -1724,7 +1725,7 @@
 	"wx/string.h"
 	"wx/filefn.h"
 
-1632424335 source:/home/ammar/Documents/Programming/PetriDishColonyCounter/src/PetriDishCounter/cv.cpp
+1632426360 source:/home/ammar/Documents/Programming/PetriDishColonyCounter/src/PetriDishCounter/cv.cpp
 	<opencv2/opencv.hpp>
 	<opencv2/highgui/highgui.hpp>
 	<stdio.h>
@@ -2531,4 +2532,15 @@
 
 1545402680 /usr/local/include/opencv2/highgui/highgui.hpp
 	"opencv2/highgui.hpp"
+
+1632426895 source:/home/ammar/Documents/Programming/PetriDishColonyCounter/src/PetriDishCounter/SelectNetworkDevice.cpp
+	"SelectNetworkDevice.h"
+	<wx/intl.h>
+	<wx/string.h>
+
+1632426866 /home/ammar/Documents/Programming/PetriDishColonyCounter/src/PetriDishCounter/SelectNetworkDevice.h
+	<wx/button.h>
+	<wx/dialog.h>
+	<wx/stattext.h>
+	<wx/textctrl.h>
 

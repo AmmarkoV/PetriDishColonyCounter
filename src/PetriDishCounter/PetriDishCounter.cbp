@@ -48,14 +48,18 @@
 		<Unit filename="PetriDishCounterApp.h" />
 		<Unit filename="PetriDishCounterMain.cpp" />
 		<Unit filename="PetriDishCounterMain.h" />
+		<Unit filename="SelectNetworkDevice.cpp" />
+		<Unit filename="SelectNetworkDevice.h" />
 		<Unit filename="cv.cpp" />
 		<Unit filename="cv.h" />
 		<Unit filename="wxsmith/PetriDishCounterframe.wxs" />
+		<Unit filename="wxsmith/SelectNetworkDevice.wxs" />
 		<Extensions>
 			<wxsmith version="1">
 				<gui name="wxWidgets" src="PetriDishCounterApp.cpp" main="PetriDishCounterFrame" init_handlers="necessary" language="CPP" />
 				<resources>
 					<wxFrame wxs="wxsmith/PetriDishCounterframe.wxs" src="PetriDishCounterMain.cpp" hdr="PetriDishCounterMain.h" fwddecl="0" i18n="1" name="PetriDishCounterFrame" language="CPP" />
+					<wxDialog wxs="wxsmith/SelectNetworkDevice.wxs" src="SelectNetworkDevice.cpp" hdr="SelectNetworkDevice.h" fwddecl="0" i18n="1" name="SelectNetworkDevice" language="CPP" />
 				</resources>
 			</wxsmith>
 		</Extensions>

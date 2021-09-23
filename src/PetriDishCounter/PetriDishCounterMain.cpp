@@ -18,6 +18,8 @@
 #include <wx/datetime.h>
 #include <vector>
 
+#include "SelectNetworkDevice.h"
+
 //(*InternalHeaders(PetriDishCounterFrame)
 #include <wx/font.h>
 #include <wx/intl.h>
@@ -423,7 +425,12 @@ void PetriDishCounterFrame::OnLoadFromFolder(wxCommandEvent& event)
 
 void PetriDishCounterFrame::OnLiveCameraStream(wxCommandEvent& event)
 {
-    wxMessageBox(_("This feature is under construction...") , _("Not implemented yet..."));
+   // wxMessageBox(_("This feature is under construction...") , _("Not implemented yet..."));
+   SelectNetworkDevice * setNet = new SelectNetworkDevice(this,wxID_ANY);
+   setNet->ShowModal();
+
+
+   delete setNet;
 }
 
 void PetriDishCounterFrame::OnQuit(wxCommandEvent& event)
