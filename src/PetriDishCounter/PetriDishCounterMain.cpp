@@ -186,12 +186,12 @@ PetriDishCounterFrame::PetriDishCounterFrame(wxWindow* parent,wxWindowID id)
     SetStatusBar(StatusBar1);
 
     Connect(ID_SPINCTRLDOUBLE1,wxEVT_SPINCTRLDOUBLE,(wxObjectEventFunction)&PetriDishCounterFrame::OnMinThresholdChange);
-    Connect(ID_SPINCTRLDOUBLE2,wxEVT_SPINCTRLDOUBLE,(wxObjectEventFunction)&PetriDishCounterFrame::OnSpinCtrlDouble2Change);
+    Connect(ID_SPINCTRLDOUBLE2,wxEVT_SPINCTRLDOUBLE,(wxObjectEventFunction)&PetriDishCounterFrame::OnMinAreaChange);
     Connect(ID_SPINCTRLDOUBLE3,wxEVT_SPINCTRLDOUBLE,(wxObjectEventFunction)&PetriDishCounterFrame::OnMaxThresholdChange);
-    Connect(ID_SPINCTRLDOUBLE4,wxEVT_SPINCTRLDOUBLE,(wxObjectEventFunction)&PetriDishCounterFrame::OnSpinCtrlDouble1Change);
-    Connect(ID_SPINCTRLDOUBLE5,wxEVT_SPINCTRLDOUBLE,(wxObjectEventFunction)&PetriDishCounterFrame::OnSpinCtrlDouble3Change);
-    Connect(ID_SPINCTRLDOUBLE6,wxEVT_SPINCTRLDOUBLE,(wxObjectEventFunction)&PetriDishCounterFrame::OnSpinCtrlDouble4Change);
-    Connect(ID_SPINCTRLDOUBLE7,wxEVT_SPINCTRLDOUBLE,(wxObjectEventFunction)&PetriDishCounterFrame::OnSpinCtrlDouble5Change);
+    Connect(ID_SPINCTRLDOUBLE4,wxEVT_SPINCTRLDOUBLE,(wxObjectEventFunction)&PetriDishCounterFrame::OnMaxAreaChange);
+    Connect(ID_SPINCTRLDOUBLE5,wxEVT_SPINCTRLDOUBLE,(wxObjectEventFunction)&PetriDishCounterFrame::OnCircularityChange);
+    Connect(ID_CHECKBOX1,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&PetriDishCounterFrame::OnCheckBoxCircularityClick);
+    Connect(ID_CHECKBOX3,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&PetriDishCounterFrame::OnCheckBoxFilterByAreaClick);
     Connect(ID_BUTTON4,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&PetriDishCounterFrame::OnButtonIncrementClick);
     Connect(ID_BUTTON5,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&PetriDishCounterFrame::OnButtonSubtractClick);
     Connect(idMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&PetriDishCounterFrame::OnQuit);
@@ -450,3 +450,33 @@ void PetriDishCounterFrame::OnMaxThresholdChange(wxSpinDoubleEvent& event)
     triggerProcessing();
 }
 
+
+void PetriDishCounterFrame::OnMinAreaChange(wxSpinDoubleEvent& event)
+{
+    settings.minimumArea = MinArea->GetValue();
+    triggerProcessing();
+}
+
+void PetriDishCounterFrame::OnMaxAreaChange(wxSpinDoubleEvent& event)
+{
+    settings.maximumArea = MaxArea->GetValue();
+    triggerProcessing();
+}
+
+void PetriDishCounterFrame::OnCheckBoxFilterByAreaClick(wxCommandEvent& event)
+{
+    settings.doFilteringByArea = (CheckBoxFilterByArea->GetValue()==true);
+    triggerProcessing();
+}
+
+void PetriDishCounterFrame::OnCircularityChange(wxSpinDoubleEvent& event)
+{
+    settings.circularity = Circularity->GetValue();
+    triggerProcessing();
+}
+
+void PetriDishCounterFrame::OnCheckBoxCircularityClick(wxCommandEvent& event)
+{
+    settings.doFilteringByCircularity = (CheckBoxFilterByArea->GetValue()==true);
+    triggerProcessing();
+}

@@ -46,11 +46,11 @@ class PetriDishCounterFrame: public wxFrame
         void OnButtonSubtractClick(wxCommandEvent& event);
         void OnMinThresholdChange(wxSpinDoubleEvent& event);
         void OnMaxThresholdChange(wxSpinDoubleEvent& event);
-        void OnSpinCtrlDouble2Change(wxSpinDoubleEvent& event);
-        void OnSpinCtrlDouble1Change(wxSpinDoubleEvent& event);
-        void OnSpinCtrlDouble3Change(wxSpinDoubleEvent& event);
-        void OnSpinCtrlDouble4Change(wxSpinDoubleEvent& event);
-        void OnSpinCtrlDouble5Change(wxSpinDoubleEvent& event);
+        void OnMinAreaChange(wxSpinDoubleEvent& event);
+        void OnMaxAreaChange(wxSpinDoubleEvent& event);
+        void OnCircularityChange(wxSpinDoubleEvent& event);
+        void OnCheckBoxFilterByAreaClick(wxCommandEvent& event);
+        void OnCheckBoxCircularityClick(wxCommandEvent& event);
         //*)
 
         //(*Identifiers(PetriDishCounterFrame)
