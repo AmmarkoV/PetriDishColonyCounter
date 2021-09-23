@@ -72,7 +72,8 @@
 			<handler function="OnMaxThresholdChange" entry="EVT_SPINCTRLDOUBLE" />
 		</object>
 		<object class="wxSpinCtrlDouble" name="ID_SPINCTRLDOUBLE4" variable="MaxArea" member="yes">
-			<value>80</value>
+			<value>100</value>
+			<max>200.000000</max>
 			<initial>5.000000</initial>
 			<pos>1128,312</pos>
 			<size>130,34</size>
@@ -123,7 +124,7 @@
 		</object>
 		<object class="wxCheckBox" name="ID_CHECKBOX4" variable="CheckBoxConvexity" member="yes">
 			<label>Convexity</label>
-			<pos>1000,462</pos>
+			<pos>1000,456</pos>
 			<handler function="OnCheckBoxConvexityClick" entry="EVT_CHECKBOX" />
 		</object>
 		<object class="wxSpinCtrlDouble" name="ID_SPINCTRLDOUBLE7" variable="Convexity" member="yes">
@@ -137,12 +138,12 @@
 		<object class="wxCheckBox" name="ID_CHECKBOX5" variable="CheckBoxDilate" member="yes">
 			<label>Dilate</label>
 			<checked>1</checked>
-			<pos>1000,504</pos>
+			<pos>1000,488</pos>
 			<handler function="OnCheckBoxDilateClick" entry="EVT_CHECKBOX" />
 		</object>
 		<object class="wxCheckBox" name="ID_CHECKBOX6" variable="CheckBoxErode" member="yes">
 			<label>Erode</label>
-			<pos>1128,504</pos>
+			<pos>1000,512</pos>
 			<handler function="OnCheckBoxErodeClick" entry="EVT_CHECKBOX" />
 		</object>
 		<object class="wxStaticLine" name="ID_STATICLINE1" variable="StaticLine1" member="yes">
@@ -160,6 +161,36 @@
 			<pos>1216,104</pos>
 			<size>40,34</size>
 			<handler function="OnButtonSubtractClick" entry="EVT_BUTTON" />
+		</object>
+		<object class="wxSpinCtrlDouble" name="ID_SPINCTRLDOUBLE8" variable="ContrastControl" member="yes">
+			<value>1.1</value>
+			<min>0.100000</min>
+			<max>10.000000</max>
+			<increment>0.010000</increment>
+			<pos>992,560</pos>
+			<size>130,34</size>
+			<handler function="OnContrastControlChange" entry="EVT_SPINCTRLDOUBLE" />
+		</object>
+		<object class="wxSpinCtrlDouble" name="ID_SPINCTRLDOUBLE9" variable="BrightnessControl" member="yes">
+			<value>210</value>
+			<max>255.000000</max>
+			<pos>1128,560</pos>
+			<size>130,34</size>
+			<handler function="OnBrightnessControlChange" entry="EVT_SPINCTRLDOUBLE" />
+		</object>
+		<object class="wxSpinCtrlDouble" name="ID_SPINCTRLDOUBLE10" variable="DarknessControl" member="yes">
+			<value>25</value>
+			<pos>1128,496</pos>
+			<size>128,34</size>
+			<handler function="OnDarknessControlChange" entry="EVT_SPINCTRLDOUBLE" />
+		</object>
+		<object class="wxStaticText" name="ID_STATICTEXT5" variable="StaticText2" member="yes">
+			<label>Contrast</label>
+			<pos>998,536</pos>
+		</object>
+		<object class="wxStaticText" name="ID_STATICTEXT6" variable="StaticText3" member="yes">
+			<label>Brightness</label>
+			<pos>1128,536</pos>
 		</object>
 		<object class="wxMenuBar" variable="MenuBar1" member="no">
 			<object class="wxMenu" variable="Menu1" member="no">

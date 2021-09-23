@@ -28,7 +28,7 @@ void defaultSettings(struct processingInformation * settings)
   //------------------------------
   settings->doFilteringByArea = 1;
   settings->minimumArea = 3;
-  settings->maximumArea = 80;
+  settings->maximumArea = 100;
   //------------------------------
   settings->doFilteringByCircularity = 1;
   settings->circularity = 0.6;
@@ -41,6 +41,12 @@ void defaultSettings(struct processingInformation * settings)
   //------------------------------
   settings->doFilteringByDilation = 1;
   settings->doFilteringByErosion = 1;
+
+
+
+  settings->contrast=1.19;
+  settings->brightness=-210;
+  settings->darkness=25;
 }
 
 
@@ -59,11 +65,12 @@ int loadANetworkImage(const char * URI)
 
     rgb = cv::imread(URI,cv::IMREAD_COLOR);
 
-    if(rgb.empty()){
-        printf(" Error opening image\n");
-        printf(" Program Arguments: [image_name] \n");
-        return 0;
-    }
+    if(rgb.empty())
+        {
+         printf(" Error opening image\n");
+         printf(" Program Arguments: [image_name] \n");
+         return 0;
+        }
 
     //imshow("Input",rgb);
     //cv::moveWindow("Input",0,0);
@@ -227,8 +234,8 @@ int processLoadedImage(struct processingInformation * settings)
     int64 t0 = cv::getTickCount();
     pretty = rgb.clone();
     intermediate = rgb.clone();
-    boostContrast(intermediate,1.19,-210); //1.99 , -210
-    eliminateDark(intermediate,25);
+    boostContrast(intermediate,settings->contrast,settings->brightness); //1.99 , -210
+    eliminateDark(intermediate,settings->darkness);
 
     int dilation_size=1;
     int dilation_elem = 0;
@@ -312,7 +319,7 @@ int processLoadedImage(struct processingInformation * settings)
     cv::Point petriDishCenter(0,0);
     petriDishCenter.x =  circles[0][0];
     petriDishCenter.y =  circles[0][1];
-    float petriDishRadious = circles[0][2];
+    float petriDishRadious = circles[0][2]-10;
     fprintf(stderr,"Petri dish is at %u %u %0.2f",petriDishCenter.x,petriDishCenter.y,petriDishRadious);
     for (unsigned int blobID=0; blobID<keypoints.size(); blobID++)
     {

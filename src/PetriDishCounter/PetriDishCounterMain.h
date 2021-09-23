@@ -57,6 +57,9 @@ class PetriDishCounterFrame: public wxFrame
         void OnCheckBoxConvexityClick(wxCommandEvent& event);
         void OnCheckBoxErodeClick(wxCommandEvent& event);
         void OnCheckBoxDilateClick(wxCommandEvent& event);
+        void OnContrastControlChange(wxSpinDoubleEvent& event);
+        void OnBrightnessControlChange(wxSpinDoubleEvent& event);
+        void OnDarknessControlChange(wxSpinDoubleEvent& event);
         //*)
 
         //(*Identifiers(PetriDishCounterFrame)
@@ -86,6 +89,11 @@ class PetriDishCounterFrame: public wxFrame
         static const long ID_STATICLINE1;
         static const long ID_BUTTON4;
         static const long ID_BUTTON5;
+        static const long ID_SPINCTRLDOUBLE8;
+        static const long ID_SPINCTRLDOUBLE9;
+        static const long ID_SPINCTRLDOUBLE10;
+        static const long ID_STATICTEXT5;
+        static const long ID_STATICTEXT6;
         static const long commandImportFile;
         static const long commandImportFolder;
         static const long commandLiveFromCamera;
@@ -116,8 +124,11 @@ class PetriDishCounterFrame: public wxFrame
         wxMenuItem* MenuItem6;
         wxMenuItem* MenuItem7;
         wxMenuItem* MenuItem8;
+        wxSpinCtrlDouble* BrightnessControl;
         wxSpinCtrlDouble* Circularity;
+        wxSpinCtrlDouble* ContrastControl;
         wxSpinCtrlDouble* Convexity;
+        wxSpinCtrlDouble* DarknessControl;
         wxSpinCtrlDouble* Inertia;
         wxSpinCtrlDouble* MaxArea;
         wxSpinCtrlDouble* MaxThreshold;
@@ -131,6 +142,8 @@ class PetriDishCounterFrame: public wxFrame
         wxStaticText* ResultText;
         wxStaticText* SpeedText;
         wxStaticText* StaticText1;
+        wxStaticText* StaticText2;
+        wxStaticText* StaticText3;
         wxStatusBar* StatusBar1;
         //*)
 

@@ -22,6 +22,10 @@ struct processingInformation
   unsigned char doFilteringByDilation;
   unsigned char doFilteringByErosion;
 
+  float contrast;
+  signed int brightness;
+  signed int darkness;
+
   char viewIntermediate;
 
   float elapsedTimeInSeconds;

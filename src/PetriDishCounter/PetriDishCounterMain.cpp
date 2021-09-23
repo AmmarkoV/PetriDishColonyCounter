@@ -83,6 +83,11 @@ const long PetriDishCounterFrame::ID_CHECKBOX6 = wxNewId();
 const long PetriDishCounterFrame::ID_STATICLINE1 = wxNewId();
 const long PetriDishCounterFrame::ID_BUTTON4 = wxNewId();
 const long PetriDishCounterFrame::ID_BUTTON5 = wxNewId();
+const long PetriDishCounterFrame::ID_SPINCTRLDOUBLE8 = wxNewId();
+const long PetriDishCounterFrame::ID_SPINCTRLDOUBLE9 = wxNewId();
+const long PetriDishCounterFrame::ID_SPINCTRLDOUBLE10 = wxNewId();
+const long PetriDishCounterFrame::ID_STATICTEXT5 = wxNewId();
+const long PetriDishCounterFrame::ID_STATICTEXT6 = wxNewId();
 const long PetriDishCounterFrame::commandImportFile = wxNewId();
 const long PetriDishCounterFrame::commandImportFolder = wxNewId();
 const long PetriDishCounterFrame::commandLiveFromCamera = wxNewId();
@@ -129,8 +134,8 @@ PetriDishCounterFrame::PetriDishCounterFrame(wxWindow* parent,wxWindowID id)
     MinArea->SetValue(_T("3"));
     MaxThreshold = new wxSpinCtrlDouble(this, ID_SPINCTRLDOUBLE3, _T("60"), wxPoint(1128,248), wxSize(130,34), 0, 0, 100, 1, 1, _T("ID_SPINCTRLDOUBLE3"));
     MaxThreshold->SetValue(_T("60"));
-    MaxArea = new wxSpinCtrlDouble(this, ID_SPINCTRLDOUBLE4, _T("80"), wxPoint(1128,312), wxSize(130,34), 0, 0, 100, 5, 1, _T("ID_SPINCTRLDOUBLE4"));
-    MaxArea->SetValue(_T("80"));
+    MaxArea = new wxSpinCtrlDouble(this, ID_SPINCTRLDOUBLE4, _T("100"), wxPoint(1128,312), wxSize(130,34), 0, 0, 200, 5, 1, _T("ID_SPINCTRLDOUBLE4"));
+    MaxArea->SetValue(_T("100"));
     CorrectionsText = new wxStaticText(this, ID_STATICTEXT3, _("Corrections"), wxPoint(1165,160), wxDefaultSize, 0, _T("ID_STATICTEXT3"));
     SpeedText = new wxStaticText(this, ID_STATICTEXT4, _("Speed information"), wxPoint(1000,160), wxDefaultSize, 0, _T("ID_STATICTEXT4"));
     Circularity = new wxSpinCtrlDouble(this, ID_SPINCTRLDOUBLE5, _T("0.6"), wxPoint(1128,360), wxSize(128,34), 0, 0, 1, 0.6, 0.1, _T("ID_SPINCTRLDOUBLE5"));
@@ -143,17 +148,25 @@ PetriDishCounterFrame::PetriDishCounterFrame(wxWindow* parent,wxWindowID id)
     CheckBoxInertia->SetValue(true);
     CheckBoxFilterByArea = new wxCheckBox(this, ID_CHECKBOX3, _("Filter by Area"), wxPoint(1064,288), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX3"));
     CheckBoxFilterByArea->SetValue(true);
-    CheckBoxConvexity = new wxCheckBox(this, ID_CHECKBOX4, _("Convexity"), wxPoint(1000,462), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX4"));
+    CheckBoxConvexity = new wxCheckBox(this, ID_CHECKBOX4, _("Convexity"), wxPoint(1000,456), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX4"));
     CheckBoxConvexity->SetValue(false);
     Convexity = new wxSpinCtrlDouble(this, ID_SPINCTRLDOUBLE7, _T("0.87"), wxPoint(1128,456), wxSize(128,34), 0, 0, 1, 0, 0.01, _T("ID_SPINCTRLDOUBLE7"));
     Convexity->SetValue(_T("0.87"));
-    CheckBoxDilate = new wxCheckBox(this, ID_CHECKBOX5, _("Dilate"), wxPoint(1000,504), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX5"));
+    CheckBoxDilate = new wxCheckBox(this, ID_CHECKBOX5, _("Dilate"), wxPoint(1000,488), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX5"));
     CheckBoxDilate->SetValue(true);
-    CheckBoxErode = new wxCheckBox(this, ID_CHECKBOX6, _("Erode"), wxPoint(1128,504), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX6"));
+    CheckBoxErode = new wxCheckBox(this, ID_CHECKBOX6, _("Erode"), wxPoint(1000,512), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX6"));
     CheckBoxErode->SetValue(false);
     StaticLine1 = new wxStaticLine(this, ID_STATICLINE1, wxPoint(1000,600), wxSize(256,0), wxLI_HORIZONTAL, _T("ID_STATICLINE1"));
     ButtonIncrement = new wxButton(this, ID_BUTTON4, _("+"), wxPoint(1216,40), wxSize(40,34), 0, wxDefaultValidator, _T("ID_BUTTON4"));
     ButtonSubtract = new wxButton(this, ID_BUTTON5, _("-"), wxPoint(1216,104), wxSize(40,34), 0, wxDefaultValidator, _T("ID_BUTTON5"));
+    ContrastControl = new wxSpinCtrlDouble(this, ID_SPINCTRLDOUBLE8, _T("1.1"), wxPoint(992,560), wxSize(130,34), 0, 0.1, 10, 0, 0.01, _T("ID_SPINCTRLDOUBLE8"));
+    ContrastControl->SetValue(_T("1.1"));
+    BrightnessControl = new wxSpinCtrlDouble(this, ID_SPINCTRLDOUBLE9, _T("210"), wxPoint(1128,560), wxSize(130,34), 0, 0, 255, 0, 1, _T("ID_SPINCTRLDOUBLE9"));
+    BrightnessControl->SetValue(_T("210"));
+    DarknessControl = new wxSpinCtrlDouble(this, ID_SPINCTRLDOUBLE10, _T("25"), wxPoint(1128,496), wxSize(128,34), 0, 0, 100, 0, 1, _T("ID_SPINCTRLDOUBLE10"));
+    DarknessControl->SetValue(_T("25"));
+    StaticText2 = new wxStaticText(this, ID_STATICTEXT5, _("Contrast"), wxPoint(998,536), wxDefaultSize, 0, _T("ID_STATICTEXT5"));
+    StaticText3 = new wxStaticText(this, ID_STATICTEXT6, _("Brightness"), wxPoint(1128,536), wxDefaultSize, 0, _T("ID_STATICTEXT6"));
     MenuBar1 = new wxMenuBar();
     Menu1 = new wxMenu();
     MenuItem3 = new wxMenuItem(Menu1, commandImportFile, _("Import File"), wxEmptyString, wxITEM_NORMAL);
@@ -200,6 +213,9 @@ PetriDishCounterFrame::PetriDishCounterFrame(wxWindow* parent,wxWindowID id)
     Connect(ID_CHECKBOX6,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&PetriDishCounterFrame::OnCheckBoxErodeClick);
     Connect(ID_BUTTON4,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&PetriDishCounterFrame::OnButtonIncrementClick);
     Connect(ID_BUTTON5,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&PetriDishCounterFrame::OnButtonSubtractClick);
+    Connect(ID_SPINCTRLDOUBLE8,wxEVT_SPINCTRLDOUBLE,(wxObjectEventFunction)&PetriDishCounterFrame::OnContrastControlChange);
+    Connect(ID_SPINCTRLDOUBLE9,wxEVT_SPINCTRLDOUBLE,(wxObjectEventFunction)&PetriDishCounterFrame::OnBrightnessControlChange);
+    Connect(ID_SPINCTRLDOUBLE10,wxEVT_SPINCTRLDOUBLE,(wxObjectEventFunction)&PetriDishCounterFrame::OnDarknessControlChange);
     Connect(idMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&PetriDishCounterFrame::OnQuit);
     Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&PetriDishCounterFrame::OnAbout);
     //*)
@@ -277,7 +293,7 @@ void PetriDishCounterFrame::render(wxDC& dc)
      wxPen red(wxColour(255,0,0),1,wxSOLID);
      dc.SetPen(red);
      dc.SetBrush(*wxRED_BRUSH); // *wxTRANSPARENT_BRUSH
-     dc.DrawCircle(mousePositionX,mousePositionY,10); //Recording Mark ON!
+     dc.DrawCircle(mousePositionX,mousePositionY,5); //Recording Mark ON!
    }
 
 
@@ -418,14 +434,14 @@ void PetriDishCounterFrame::OnQuit(wxCommandEvent& event)
 
 void PetriDishCounterFrame::OnAbout(wxCommandEvent& event)
 {
-    wxString msg = wxbuildinfo(long_f);
-    wxMessageBox(msg, _("Welcome to..."));
+    wxString msg = _("Written by Ammar Qammaz a.k.a. AmmarkoV");// wxbuildinfo(long_f);
+    wxMessageBox(msg, _("Petri Dish Counter"));
 }
 
 void PetriDishCounterFrame::OnButtonIncrementClick(wxCommandEvent& event)
 {
    ++userChangeToColonyCounter;
-   char numberShown[128];
+   char numberShown[128]={0};
    snprintf(numberShown,128,"%u",colonyCounter+userChangeToColonyCounter);
    ResultText->SetLabel(wxString::FromUTF8(numberShown));
    snprintf(numberShown,128,"%d correction",userChangeToColonyCounter);
@@ -437,7 +453,7 @@ void PetriDishCounterFrame::OnButtonSubtractClick(wxCommandEvent& event)
    if (colonyCounter+userChangeToColonyCounter>0)
    {
     --userChangeToColonyCounter;
-    char numberShown[128];
+    char numberShown[128]={0};
     snprintf(numberShown,128,"%u",colonyCounter+userChangeToColonyCounter);
     ResultText->SetLabel(wxString::FromUTF8(numberShown));
     snprintf(numberShown,128,"%d correction",userChangeToColonyCounter);
@@ -521,5 +537,23 @@ void PetriDishCounterFrame::OnCheckBoxErodeClick(wxCommandEvent& event)
 void PetriDishCounterFrame::OnCheckBoxDilateClick(wxCommandEvent& event)
 {
     settings.doFilteringByDilation  = (CheckBoxDilate->GetValue()==true);
+    triggerProcessing();
+}
+
+void PetriDishCounterFrame::OnContrastControlChange(wxSpinDoubleEvent& event)
+{
+    settings.contrast = ContrastControl->GetValue();
+    triggerProcessing();
+}
+
+void PetriDishCounterFrame::OnBrightnessControlChange(wxSpinDoubleEvent& event)
+{
+    settings.brightness = (signed int) (-1* BrightnessControl->GetValue());
+    triggerProcessing();
+}
+
+void PetriDishCounterFrame::OnDarknessControlChange(wxSpinDoubleEvent& event)
+{
+    settings.darkness = DarknessControl->GetValue();
     triggerProcessing();
 }
