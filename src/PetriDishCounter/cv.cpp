@@ -1,4 +1,7 @@
-#include "opencv2/opencv.hpp"
+//#include "opencv2/opencv.hpp"
+//#include "opencv2/highgui/highgui.hpp"
+#include <opencv2/opencv.hpp>
+#include <opencv2/highgui/highgui.hpp>
 /** @file webcam.cpp
  *  @brief This is a simple test file to make sure your camera or video files can be opened using OpenCV
  *  @author Ammar Qammaz (AmmarkoV)
@@ -6,7 +9,7 @@
 #include <stdio.h>
 #include <vector>
 #include "cv.h"
-#include "opencv2/highgui/highgui.hpp"
+
 #include "../AmmClient/AmmClient.h"
 
 using namespace std;
@@ -24,7 +27,7 @@ void defaultSettings(struct processingInformation * settings)
   settings->maximumThreshold = 60;
   //------------------------------
   settings->doFilteringByArea = 1;
-  settings->minimumArea = 5;
+  settings->minimumArea = 3;
   settings->maximumArea = 80;
   //------------------------------
   settings->doFilteringByCircularity = 1;
@@ -66,7 +69,7 @@ int loadANetworkImage(const char * URI)
     //cv::moveWindow("Input",0,0);
 
 
-    blur(rgb,rgb,Size(2,2));
+    cv::blur(rgb,rgb,Size(2,2));
     cv::cvtColor(rgb,rgb,CV_BGR2RGB);
 
     return 1;
@@ -95,18 +98,21 @@ int webcamLoop(int argc, char *argv[])
 
 
     cv::VideoCapture cap(webcam); // open the default camera
-    if (webcam==0) {
-        std::cerr<<"Trying to open webcam\n";
-        cap.set(CAP_PROP_FRAME_WIDTH,width);
-        cap.set(CAP_PROP_FRAME_HEIGHT,height);
-    } else {
-        std::cerr<<"Trying to open "<<webcam<<"\n";
-    }
+    if (webcam==0)
+        {
+          fprintf(stderr,"Trying to open webcam\n");
+          cap.set(CAP_PROP_FRAME_WIDTH,width);
+          cap.set(CAP_PROP_FRAME_HEIGHT,height);
+        } else
+        {
+          fprintf(stderr,"Trying to open %s\n",webcam);
+        }
 
-    if (!cap.isOpened()) { // check if succeeded to connect to the camera
-        std::cerr<<"Openning camera failed\n";
-        return 1;
-    }
+    if (!cap.isOpened())
+        { // check if succeeded to connect to the camera
+         fprintf(stderr,"Opening camera failed\n");
+         return 1;
+        }
 
 
 

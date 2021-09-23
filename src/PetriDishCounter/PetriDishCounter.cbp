@@ -33,6 +33,7 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option="`wx-config --cflags`" />
+			<Add option="`pkg-config --cflags opencv`" />
 			<Add directory="/usr/include/opencv" />
 			<Add directory="/usr/include/opencv2" />
 		</Compiler>

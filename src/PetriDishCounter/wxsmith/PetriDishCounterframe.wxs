@@ -2,16 +2,16 @@
 <wxsmith>
 	<object class="wxFrame" name="PetriDishCounterFrame">
 		<title>Petri Dish Counter </title>
-		<size>1280,720</size>
+		<size>1280,760</size>
 		<object class="wxStaticBox" name="ID_STATICBOX1" variable="StaticBox1" member="yes">
 			<label>Input Feed</label>
 			<pos>8,8</pos>
-			<size>968,658</size>
+			<size>968,712</size>
 		</object>
 		<object class="wxStaticBox" name="ID_STATICBOX2" variable="StaticBox2" member="yes">
 			<label>Filtering Controls</label>
 			<pos>984,192</pos>
-			<size>280,474</size>
+			<size>280,528</size>
 		</object>
 		<object class="wxStaticBox" name="ID_STATICBOX3" variable="StaticBox3" member="yes">
 			<label>Current Count</label>
@@ -44,21 +44,21 @@
 		</object>
 		<object class="wxButton" name="ID_BUTTON1" variable="ButtonPrevious" member="yes">
 			<label>Previous</label>
-			<pos>1000,624</pos>
+			<pos>1000,672</pos>
 			<size>112,34</size>
 		</object>
 		<object class="wxButton" name="ID_BUTTON2" variable="ButtonNext" member="yes">
 			<label>Next</label>
-			<pos>1144,624</pos>
+			<pos>1144,672</pos>
 			<size>112,34</size>
 		</object>
 		<object class="wxButton" name="ID_BUTTON3" variable="ButtonEnter" member="yes">
 			<label>Sample is OK</label>
-			<pos>1000,560</pos>
+			<pos>1000,608</pos>
 			<size>256,58</size>
 		</object>
 		<object class="wxSpinCtrlDouble" name="ID_SPINCTRLDOUBLE2" variable="MinArea" member="yes">
-			<value>5</value>
+			<value>3</value>
 			<initial>5.000000</initial>
 			<pos>992,312</pos>
 			<size>130,34</size>
@@ -146,7 +146,7 @@
 			<handler function="OnCheckBoxErodeClick" entry="EVT_CHECKBOX" />
 		</object>
 		<object class="wxStaticLine" name="ID_STATICLINE1" variable="StaticLine1" member="yes">
-			<pos>1000,552</pos>
+			<pos>1000,600</pos>
 			<size>256,0</size>
 		</object>
 		<object class="wxButton" name="ID_BUTTON4" variable="ButtonIncrement" member="yes">
