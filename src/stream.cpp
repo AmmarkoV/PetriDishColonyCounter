@@ -1,13 +1,13 @@
-#include "opencv2/opencv.hpp"
-/** @file webcam.cpp
+/** @file stream.cpp
  *  @brief This is a simple test file to make sure your camera or video files can be opened using OpenCV
  *  @author Ammar Qammaz (AmmarkoV)
  */
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <vector>
 
 using namespace std;
-using namespace cv;
 
 #define NORMAL   "\033[0m"
 #define BLACK   "\033[30m"      /* Black */
@@ -32,7 +32,7 @@ const char JPEG_EOF_BYTE_A=255;
 const char JPEG_EOF_BYTE_B=217;
 
 
-#define STREAMING_BUFFER_SIZE 262144
+#define STREAMING_BUFFER_SIZE 524288
 struct streamingBuffer
 {
    char scanForJPEG;
@@ -179,7 +179,7 @@ int stream(int argc, char *argv[])
             fprintf(stderr,GREEN "Found End..\n" NORMAL);
             fprintf(stderr,GREEN "JPEG File started @ %p , sized %lu bytes\n" NORMAL,sBuf.lastJPEGImageStart,jpegEnd-sBuf.lastJPEGImageStart);
 
-            char filename[512];
+            char filename[512]={0};
             snprintf(filename,512,"image_%u.jpg",receivedFiles);
             flushJPEGFileToDisk(filename,sBuf.lastJPEGImageStart,jpegEnd-sBuf.lastJPEGImageStart);
             ++receivedFiles;
