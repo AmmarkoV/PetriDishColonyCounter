@@ -198,7 +198,7 @@ int processLoadedImage(struct processingInformation * settings)
     int64 t0 = cv::getTickCount();
     pretty = rgb.clone();
     intermediate = rgb.clone();
-    boostContrast(intermediate,1.99,-210);
+    boostContrast(intermediate,1.19,-210); //1.99 , -210
     eliminateDark(intermediate,25);
 
     int dilation_size=1;
