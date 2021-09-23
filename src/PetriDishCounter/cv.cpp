@@ -231,25 +231,25 @@ int processLoadedImage(struct processingInformation * settings)
     params.blobColor=255; //Light Blobs
 
     // Change thresholds
-    params.minThreshold = 1;
-    params.maxThreshold = 50;
+    params.minThreshold = settings->minimumThreshold; //1
+    params.maxThreshold = settings->maximumThreshold; //50
 
     // Filter by Area.
-    params.filterByArea = true;
-    params.minArea = 1;
-    params.maxArea = 50;
+    params.filterByArea = (settings->doFilteringByArea==1);
+    params.minArea = settings->minimumArea; // 1;
+    params.maxArea = settings->maximumArea; // 50;
 
     // Filter by Circularity
-    params.filterByCircularity = true;
-    params.minCircularity = 0.6;
+    params.filterByCircularity = (settings->doFilteringByCircularity==1);// true;
+    params.minCircularity = settings->circularity; //0.6;
 
     // Filter by Convexity
-    params.filterByConvexity = false;
-    params.minConvexity = 0.87;
+    params.filterByConvexity = (settings->doFilteringByConvexity==1);// false;
+    params.minConvexity = settings->convexity; //0.87;
 
     // Filter by Inertia
-    params.filterByInertia = true;
-    params.minInertiaRatio = 0.01;
+    params.filterByInertia = (settings->doFilteringByInertia==1);// true;
+    params.minInertiaRatio = settings->inertia; //0.01;
 
     cv::Ptr<cv::SimpleBlobDetector> detector = cv::SimpleBlobDetector::create(params);  // create blob detector
 
