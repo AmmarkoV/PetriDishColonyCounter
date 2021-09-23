@@ -65,16 +65,15 @@
 			<handler function="OnMinAreaChange" entry="EVT_SPINCTRLDOUBLE" />
 		</object>
 		<object class="wxSpinCtrlDouble" name="ID_SPINCTRLDOUBLE3" variable="MaxThreshold" member="yes">
-			<value>45</value>
-			<initial>45.000000</initial>
+			<value>60</value>
+			<initial>1.000000</initial>
 			<pos>1128,248</pos>
 			<size>130,34</size>
 			<handler function="OnMaxThresholdChange" entry="EVT_SPINCTRLDOUBLE" />
 		</object>
 		<object class="wxSpinCtrlDouble" name="ID_SPINCTRLDOUBLE4" variable="MaxArea" member="yes">
-			<value>44</value>
+			<value>80</value>
 			<initial>5.000000</initial>
-			<increment>44.000000</increment>
 			<pos>1128,312</pos>
 			<size>130,34</size>
 			<handler function="OnMaxAreaChange" entry="EVT_SPINCTRLDOUBLE" />

@@ -127,10 +127,10 @@ PetriDishCounterFrame::PetriDishCounterFrame(wxWindow* parent,wxWindowID id)
     ButtonEnter = new wxButton(this, ID_BUTTON3, _("Sample is OK"), wxPoint(1000,560), wxSize(256,58), 0, wxDefaultValidator, _T("ID_BUTTON3"));
     MinArea = new wxSpinCtrlDouble(this, ID_SPINCTRLDOUBLE2, _T("5"), wxPoint(992,312), wxSize(130,34), 0, 0, 100, 5, 1, _T("ID_SPINCTRLDOUBLE2"));
     MinArea->SetValue(_T("5"));
-    MaxThreshold = new wxSpinCtrlDouble(this, ID_SPINCTRLDOUBLE3, _T("45"), wxPoint(1128,248), wxSize(130,34), 0, 0, 100, 45, 1, _T("ID_SPINCTRLDOUBLE3"));
-    MaxThreshold->SetValue(_T("45"));
-    MaxArea = new wxSpinCtrlDouble(this, ID_SPINCTRLDOUBLE4, _T("44"), wxPoint(1128,312), wxSize(130,34), 0, 0, 100, 5, 44, _T("ID_SPINCTRLDOUBLE4"));
-    MaxArea->SetValue(_T("44"));
+    MaxThreshold = new wxSpinCtrlDouble(this, ID_SPINCTRLDOUBLE3, _T("60"), wxPoint(1128,248), wxSize(130,34), 0, 0, 100, 1, 1, _T("ID_SPINCTRLDOUBLE3"));
+    MaxThreshold->SetValue(_T("60"));
+    MaxArea = new wxSpinCtrlDouble(this, ID_SPINCTRLDOUBLE4, _T("80"), wxPoint(1128,312), wxSize(130,34), 0, 0, 100, 5, 1, _T("ID_SPINCTRLDOUBLE4"));
+    MaxArea->SetValue(_T("80"));
     CorrectionsText = new wxStaticText(this, ID_STATICTEXT3, _("Corrections"), wxPoint(1165,160), wxDefaultSize, 0, _T("ID_STATICTEXT3"));
     SpeedText = new wxStaticText(this, ID_STATICTEXT4, _("Speed information"), wxPoint(1000,160), wxDefaultSize, 0, _T("ID_STATICTEXT4"));
     Circularity = new wxSpinCtrlDouble(this, ID_SPINCTRLDOUBLE5, _T("0.6"), wxPoint(1128,360), wxSize(128,34), 0, 0, 1, 0.6, 0.1, _T("ID_SPINCTRLDOUBLE5"));

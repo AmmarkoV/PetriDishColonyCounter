@@ -21,11 +21,11 @@ struct AmmClient_Instance instance={0};
 void defaultSettings(struct processingInformation * settings)
 {
   settings->minimumThreshold = 5;
-  settings->maximumThreshold = 46;
+  settings->maximumThreshold = 60;
   //------------------------------
   settings->doFilteringByArea = 1;
   settings->minimumArea = 5;
-  settings->maximumArea = 56;
+  settings->maximumArea = 80;
   //------------------------------
   settings->doFilteringByCircularity = 1;
   settings->circularity = 0.6;
@@ -54,7 +54,7 @@ int loadANetworkImage(const char * URI)
                       );
 */
 
-    rgb = imread(URI,cv::IMREAD_COLOR);
+    rgb = cv::imread(URI,cv::IMREAD_COLOR);
 
     if(rgb.empty()){
         printf(" Error opening image\n");
