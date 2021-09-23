@@ -18,6 +18,29 @@ cv::Mat pretty;
 
 struct AmmClient_Instance instance={0};
 
+void defaultSettings(struct processingInformation * settings)
+{
+  settings->minimumThreshold = 5;
+  settings->maximumThreshold = 46;
+  //------------------------------
+  settings->doFilteringByArea = 1;
+  settings->minimumArea = 5;
+  settings->maximumArea = 56;
+  //------------------------------
+  settings->doFilteringByCircularity = 1;
+  settings->circularity = 0.6;
+  //------------------------------
+  settings->doFilteringByInertia = 1;
+  settings->inertia = 0.04;
+  //------------------------------
+  settings->doFilteringByConvexity = 1;
+  settings->convexity = 0.87;
+  //------------------------------
+  settings->doFilteringByDilation = 1;
+  settings->doFilteringByErosion = 1;
+}
+
+
 int loadANetworkImage(const char * URI)
 {
     /*
@@ -219,11 +242,13 @@ int processLoadedImage(struct processingInformation * settings)
     kernel.at<float>(2,0)= 0;     kernel.at<float>(2,1)= 0;     kernel.at<float>(2,2)= 0;
 
 
-    cv::dilate(intermediate,intermediate, kernel, Point(-1, -1), 2, 1, 1);
-    //cv::erode(intermediate,intermediate, kernel, Point(-1, -1), 2, 1, 1);
+    if (settings->doFilteringByDilation)
+       { cv::dilate(intermediate,intermediate, kernel, Point(-1, -1), 2, 1, 1); }
+
+    if (settings->doFilteringByErosion)
+       { cv::erode(intermediate,intermediate, kernel, Point(-1, -1), 2, 1, 1);  }
+
     std::vector<KeyPoint> keypoints;
-
-
 
     // Setup SimpleBlobDetector parameters.
     SimpleBlobDetector::Params params;

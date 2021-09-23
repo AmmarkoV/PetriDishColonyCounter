@@ -213,6 +213,7 @@ PetriDishCounterFrame::PetriDishCounterFrame(wxWindow* parent,wxWindowID id)
     Connect(viewInternal,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&PetriDishCounterFrame::OnSwitchVisualizationToInternal);
 
 
+    defaultSettings(&settings);
 
     wxSize imageSize = wxSize(950,600);
     visualizationImage = new wxImage(imageSize,true);

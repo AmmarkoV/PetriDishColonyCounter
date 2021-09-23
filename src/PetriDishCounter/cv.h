@@ -27,6 +27,7 @@ struct processingInformation
   float elapsedTimeInSeconds;
 };
 
+void defaultSettings(struct processingInformation * settings);
 
 int loadANetworkImage(const char * URI);
 
