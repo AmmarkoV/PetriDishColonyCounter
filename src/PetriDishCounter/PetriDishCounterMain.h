@@ -44,6 +44,13 @@ class PetriDishCounterFrame: public wxFrame
         void OnAbout(wxCommandEvent& event);
         void OnButtonIncrementClick(wxCommandEvent& event);
         void OnButtonSubtractClick(wxCommandEvent& event);
+        void OnMinThresholdChange(wxSpinDoubleEvent& event);
+        void OnMaxThresholdChange(wxSpinDoubleEvent& event);
+        void OnSpinCtrlDouble2Change(wxSpinDoubleEvent& event);
+        void OnSpinCtrlDouble1Change(wxSpinDoubleEvent& event);
+        void OnSpinCtrlDouble3Change(wxSpinDoubleEvent& event);
+        void OnSpinCtrlDouble4Change(wxSpinDoubleEvent& event);
+        void OnSpinCtrlDouble5Change(wxSpinDoubleEvent& event);
         //*)
 
         //(*Identifiers(PetriDishCounterFrame)
@@ -103,13 +110,13 @@ class PetriDishCounterFrame: public wxFrame
         wxMenuItem* MenuItem6;
         wxMenuItem* MenuItem7;
         wxMenuItem* MenuItem8;
+        wxSpinCtrlDouble* Circularity;
+        wxSpinCtrlDouble* Convexity;
+        wxSpinCtrlDouble* Inertia;
+        wxSpinCtrlDouble* MaxArea;
         wxSpinCtrlDouble* MaxThreshold;
+        wxSpinCtrlDouble* MinArea;
         wxSpinCtrlDouble* MinThreshold;
-        wxSpinCtrlDouble* SpinCtrlDouble1;
-        wxSpinCtrlDouble* SpinCtrlDouble2;
-        wxSpinCtrlDouble* SpinCtrlDouble3;
-        wxSpinCtrlDouble* SpinCtrlDouble4;
-        wxSpinCtrlDouble* SpinCtrlDouble5;
         wxStaticBox* StaticBox1;
         wxStaticBox* StaticBox2;
         wxStaticBox* StaticBox3;

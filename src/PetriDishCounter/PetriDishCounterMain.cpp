@@ -125,28 +125,28 @@ PetriDishCounterFrame::PetriDishCounterFrame(wxWindow* parent,wxWindowID id)
     ButtonPrevious = new wxButton(this, ID_BUTTON1, _("Previous"), wxPoint(1000,624), wxSize(112,34), 0, wxDefaultValidator, _T("ID_BUTTON1"));
     ButtonNext = new wxButton(this, ID_BUTTON2, _("Next"), wxPoint(1144,624), wxSize(112,34), 0, wxDefaultValidator, _T("ID_BUTTON2"));
     ButtonEnter = new wxButton(this, ID_BUTTON3, _("Sample is OK"), wxPoint(1000,560), wxSize(256,58), 0, wxDefaultValidator, _T("ID_BUTTON3"));
-    SpinCtrlDouble2 = new wxSpinCtrlDouble(this, ID_SPINCTRLDOUBLE2, _T("5"), wxPoint(992,312), wxSize(130,34), 0, 0, 100, 5, 1, _T("ID_SPINCTRLDOUBLE2"));
-    SpinCtrlDouble2->SetValue(_T("5"));
+    MinArea = new wxSpinCtrlDouble(this, ID_SPINCTRLDOUBLE2, _T("5"), wxPoint(992,312), wxSize(130,34), 0, 0, 100, 5, 1, _T("ID_SPINCTRLDOUBLE2"));
+    MinArea->SetValue(_T("5"));
     MaxThreshold = new wxSpinCtrlDouble(this, ID_SPINCTRLDOUBLE3, _T("45"), wxPoint(1128,248), wxSize(130,34), 0, 0, 100, 45, 1, _T("ID_SPINCTRLDOUBLE3"));
     MaxThreshold->SetValue(_T("45"));
-    SpinCtrlDouble1 = new wxSpinCtrlDouble(this, ID_SPINCTRLDOUBLE4, _T("44"), wxPoint(1128,312), wxSize(130,34), 0, 0, 100, 5, 44, _T("ID_SPINCTRLDOUBLE4"));
-    SpinCtrlDouble1->SetValue(_T("44"));
+    MaxArea = new wxSpinCtrlDouble(this, ID_SPINCTRLDOUBLE4, _T("44"), wxPoint(1128,312), wxSize(130,34), 0, 0, 100, 5, 44, _T("ID_SPINCTRLDOUBLE4"));
+    MaxArea->SetValue(_T("44"));
     CorrectionsText = new wxStaticText(this, ID_STATICTEXT3, _("Corrections"), wxPoint(1165,160), wxDefaultSize, 0, _T("ID_STATICTEXT3"));
     SpeedText = new wxStaticText(this, ID_STATICTEXT4, _("Speed information"), wxPoint(1000,160), wxDefaultSize, 0, _T("ID_STATICTEXT4"));
-    SpinCtrlDouble3 = new wxSpinCtrlDouble(this, ID_SPINCTRLDOUBLE5, _T("0.6"), wxPoint(1128,360), wxSize(128,34), 0, 0, 1, 0.6, 0.1, _T("ID_SPINCTRLDOUBLE5"));
-    SpinCtrlDouble3->SetValue(_T("0.6"));
+    Circularity = new wxSpinCtrlDouble(this, ID_SPINCTRLDOUBLE5, _T("0.6"), wxPoint(1128,360), wxSize(128,34), 0, 0, 1, 0.6, 0.1, _T("ID_SPINCTRLDOUBLE5"));
+    Circularity->SetValue(_T("0.6"));
     CheckBoxCircularity = new wxCheckBox(this, ID_CHECKBOX1, _("Circularity"), wxPoint(1000,368), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX1"));
     CheckBoxCircularity->SetValue(true);
-    SpinCtrlDouble4 = new wxSpinCtrlDouble(this, ID_SPINCTRLDOUBLE6, _T("0.01"), wxPoint(1128,408), wxSize(128,34), 0, 0, 1, 0, 0.01, _T("ID_SPINCTRLDOUBLE6"));
-    SpinCtrlDouble4->SetValue(_T("0.01"));
+    Inertia = new wxSpinCtrlDouble(this, ID_SPINCTRLDOUBLE6, _T("0.01"), wxPoint(1128,408), wxSize(128,34), 0, 0, 1, 0, 0.01, _T("ID_SPINCTRLDOUBLE6"));
+    Inertia->SetValue(_T("0.01"));
     CheckBoxInertia = new wxCheckBox(this, ID_CHECKBOX2, _("Inertia"), wxPoint(1000,414), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX2"));
     CheckBoxInertia->SetValue(true);
     CheckBoxFilterByArea = new wxCheckBox(this, ID_CHECKBOX3, _("Filter by Area"), wxPoint(1064,288), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX3"));
     CheckBoxFilterByArea->SetValue(true);
     CheckBoxConvexity = new wxCheckBox(this, ID_CHECKBOX4, _("Convexity"), wxPoint(1000,462), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX4"));
     CheckBoxConvexity->SetValue(false);
-    SpinCtrlDouble5 = new wxSpinCtrlDouble(this, ID_SPINCTRLDOUBLE7, _T("0.87"), wxPoint(1128,456), wxSize(128,34), 0, 0, 1, 0, 0.01, _T("ID_SPINCTRLDOUBLE7"));
-    SpinCtrlDouble5->SetValue(_T("0.87"));
+    Convexity = new wxSpinCtrlDouble(this, ID_SPINCTRLDOUBLE7, _T("0.87"), wxPoint(1128,456), wxSize(128,34), 0, 0, 1, 0, 0.01, _T("ID_SPINCTRLDOUBLE7"));
+    Convexity->SetValue(_T("0.87"));
     CheckBoxDilate = new wxCheckBox(this, ID_CHECKBOX5, _("Dilate"), wxPoint(1000,504), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX5"));
     CheckBoxDilate->SetValue(true);
     CheckBoxErode = new wxCheckBox(this, ID_CHECKBOX6, _("Erode"), wxPoint(1128,504), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX6"));
@@ -185,6 +185,13 @@ PetriDishCounterFrame::PetriDishCounterFrame(wxWindow* parent,wxWindowID id)
     StatusBar1->SetStatusStyles(1,__wxStatusBarStyles_1);
     SetStatusBar(StatusBar1);
 
+    Connect(ID_SPINCTRLDOUBLE1,wxEVT_SPINCTRLDOUBLE,(wxObjectEventFunction)&PetriDishCounterFrame::OnMinThresholdChange);
+    Connect(ID_SPINCTRLDOUBLE2,wxEVT_SPINCTRLDOUBLE,(wxObjectEventFunction)&PetriDishCounterFrame::OnSpinCtrlDouble2Change);
+    Connect(ID_SPINCTRLDOUBLE3,wxEVT_SPINCTRLDOUBLE,(wxObjectEventFunction)&PetriDishCounterFrame::OnMaxThresholdChange);
+    Connect(ID_SPINCTRLDOUBLE4,wxEVT_SPINCTRLDOUBLE,(wxObjectEventFunction)&PetriDishCounterFrame::OnSpinCtrlDouble1Change);
+    Connect(ID_SPINCTRLDOUBLE5,wxEVT_SPINCTRLDOUBLE,(wxObjectEventFunction)&PetriDishCounterFrame::OnSpinCtrlDouble3Change);
+    Connect(ID_SPINCTRLDOUBLE6,wxEVT_SPINCTRLDOUBLE,(wxObjectEventFunction)&PetriDishCounterFrame::OnSpinCtrlDouble4Change);
+    Connect(ID_SPINCTRLDOUBLE7,wxEVT_SPINCTRLDOUBLE,(wxObjectEventFunction)&PetriDishCounterFrame::OnSpinCtrlDouble5Change);
     Connect(ID_BUTTON4,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&PetriDishCounterFrame::OnButtonIncrementClick);
     Connect(ID_BUTTON5,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&PetriDishCounterFrame::OnButtonSubtractClick);
     Connect(idMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&PetriDishCounterFrame::OnQuit);
@@ -430,3 +437,16 @@ void PetriDishCounterFrame::OnButtonSubtractClick(wxCommandEvent& event)
     CorrectionsText->SetLabel(wxString::FromUTF8(numberShown));
    }
 }
+
+void PetriDishCounterFrame::OnMinThresholdChange(wxSpinDoubleEvent& event)
+{
+    settings.minimumThreshold = MinThreshold->GetValue();
+    triggerProcessing();
+}
+
+void PetriDishCounterFrame::OnMaxThresholdChange(wxSpinDoubleEvent& event)
+{
+    settings.maximumThreshold = MaxThreshold->GetValue();
+    triggerProcessing();
+}
+
