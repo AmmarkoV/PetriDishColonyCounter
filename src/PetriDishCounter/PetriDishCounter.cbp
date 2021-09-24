@@ -32,14 +32,15 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add option="`wx-config --cflags`" />
+			<Add option="-fexceptions" />
 			<Add option="`pkg-config --cflags opencv`" />
-			<Add directory="/usr/include/opencv" />
-			<Add directory="/usr/include/opencv2" />
+			<Add option="`wx-config --cflags`" />
+			<Add directory="/usr/local/include/opencv" />
+			<Add directory="/usr/local/include/opencv2" />
 		</Compiler>
 		<Linker>
-			<Add option="`wx-config --libs`" />
 			<Add option="`pkg-config --libs opencv`" />
+			<Add option="`wx-config --libs`" />
 			<Add library="../AmmClient/libAmmClient.a" />
 			<Add directory="/usr/include/opencv" />
 			<Add directory="/usr/include/opencv2" />

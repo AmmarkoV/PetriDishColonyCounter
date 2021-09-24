@@ -112,6 +112,7 @@ static int flushJPEGFileToDisk(const char * filename, char * buffer, unsigned in
  return 0;
 }
 
+
 static int streamJPEGToFile(int argc, char *argv[])
 {
  const char IP[]={"192.168.1.33"};
