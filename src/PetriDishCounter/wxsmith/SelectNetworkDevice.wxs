@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<wxsmith>
+	<object class="wxDialog" name="SelectNetworkDevice">
+		<title>Connect To Network Device</title>
+		<size>486,152</size>
+		<object class="wxButton" name="ID_BUTTON1" variable="ButtonConnect" member="yes">
+			<label>Connect</label>
+			<pos>24,88</pos>
+			<size>328,34</size>
+		</object>
+		<object class="wxButton" name="ID_BUTTON2" variable="ButtonCancel" member="yes">
+			<label>Cancel</label>
+			<pos>368,88</pos>
+		</object>
+		<object class="wxTextCtrl" name="ID_TEXTCTRL1" variable="URI" member="yes">
+			<value>192.168.1.33</value>
+			<pos>24,40</pos>
+			<size>432,34</size>
+		</object>
+		<object class="wxStaticText" name="ID_STATICTEXT1" variable="StaticText1" member="yes">
+			<label>Address</label>
+			<pos>24,16</pos>
+		</object>
+	</object>
+</wxsmith>
