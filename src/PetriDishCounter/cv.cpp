@@ -237,7 +237,7 @@ int processLoadedImage(struct processingInformation * settings)
     boostContrast(intermediate,settings->contrast,settings->brightness); //1.99 , -210
     eliminateDark(intermediate,settings->darkness);
 
-    int dilation_size=1;
+    int dilation_size = 1;
     int dilation_elem = 0;
     int dilation_type = 0;
     if( dilation_elem == 0 ){ dilation_type = MORPH_RECT; } else
@@ -251,12 +251,13 @@ int processLoadedImage(struct processingInformation * settings)
                                             );
 
     kernel.at<float>(0,0)= 0;     kernel.at<float>(0,1)= 0;     kernel.at<float>(0,2)= 0;
-    kernel.at<float>(1,0)= 0;     kernel.at<float>(1,1)= 0;     kernel.at<float>(1,2)= 0;
+    kernel.at<float>(1,0)= 0;     kernel.at<float>(1,1)= 1;     kernel.at<float>(1,2)= 0;
     kernel.at<float>(2,0)= 0;     kernel.at<float>(2,1)= 0;     kernel.at<float>(2,2)= 0;
 
-
     if (settings->doFilteringByDilation)
-       { cv::dilate(intermediate,intermediate, kernel, Point(-1, -1), 2, 1, 1); }
+       {
+         cv::dilate(intermediate,intermediate, kernel, Point(-1, -1), 2, 1, 1);
+       }
 
     if (settings->doFilteringByErosion)
        { cv::erode(intermediate,intermediate, kernel, Point(-1, -1), 2, 1, 1);  }
